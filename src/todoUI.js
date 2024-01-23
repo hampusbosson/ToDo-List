@@ -1,15 +1,4 @@
-function createInputElement(type, id, name, placeholder, classList) {
-    const input = document.createElement('input'); 
-    input.type = type; 
-    input.id = id; 
-    input.name = name; 
-    input.classList.add(classList); 
-    if (placeholder) { // Only set placeholder if a value is provided
-        input.placeholder = placeholder;
-    }
-    
-    return input; 
-}
+import { createInputElement, hideAllPages } from "./UIhelper";
 
 function createPriroitySelector() {
     const prioritySelector = document.createElement('div'); 
@@ -62,7 +51,8 @@ function createPriorityButton(priority) {
 
 function renderToDoPage() {
     const todoPage = document.createElement('div'); 
-    todoPage.classList.add('todo-page'); 
+    todoPage.id = 'todo-page'; 
+    todoPage.classList.add('page'); 
 
     const todoContent = document.createElement('div');
     todoContent.classList.add('todo-content');
@@ -128,7 +118,8 @@ function renderToDoPage() {
 }
 
 function showToDoPage() {
-    let todoPage = document.querySelector('.todo-page');
+    hideAllPages(); 
+    let todoPage = document.getElementById('todo-page');
     if (!todoPage) {
         renderToDoPage(); 
     } else {

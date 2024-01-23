@@ -1,15 +1,21 @@
 @font-face {
     font-family: 'lato';
-    src: url('./Lato-Light.ttf') format('truetype');
+    src: url('./fonts/Lato-Light.ttf') format('truetype');
     font-weight: 400;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'lato-bold';
-    src: url('./Lato-Bold.ttf') format('truetype');
+    src: url('./fonts/Lato-Bold.ttf') format('truetype');
     font-weight: 700;
     font-style: bold;
+}
+
+@font-face {
+    font-family: 'lato-regular';
+    src: url('./fonts/Lato-Regular.ttf') format('truetype');
+    font-weight: 400;
 }
 
 
@@ -70,3 +76,209 @@ li:hover {
     justify-content: center;
     font-size: 4rem;
 }
+
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+.modal-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #5c9cf5;
+    font-size: 2.5rem;
+    padding: 1rem;
+    font-family: 'lato-regular';
+    border-bottom: 1px solid rgba(0, 0, 0, 0.266); 
+    min-width: max-content;
+}
+
+.modal-content {
+    display: flex;
+    flex-direction: row;
+    height: 83.1%; 
+}
+
+.modal-text {
+    width: 100%;
+}
+
+.modal-sidebar {
+    background-color: #f2f5f7;
+    width: 9rem;
+    box-shadow: 0px 2px 8px rgb(144, 144, 144);
+    max-height: 100%;
+}
+
+.modal-sidebar-options {
+    display: flex;
+    flex-direction: column;
+    padding-left: 1.5rem; 
+    padding-top: 1.5rem;
+    gap: 1rem; 
+    font-size: 1.2rem;
+}
+
+/* Modal Content */
+.modal-container {
+    height: 100%;
+    background-color: #fefefe;
+    margin: 10% auto; /* 15% from the top and centered */
+    border: 1px solid #888;
+    width: 45%; 
+    height: 30rem;
+    border: 1px solid rgba(0, 0, 0, 0.556);
+    min-width: max-content;
+}
+
+/* The Close Button */
+.close {
+    color: #000000;
+    float: right;
+    font-weight: bold;
+    margin-right: 1rem;
+}
+
+.close:hover,
+.close:focus {
+    color: rgb(255, 255, 255);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#todo-page, #project-container {
+    height: 95%;
+    padding-top: 0.6rem;
+    padding-left: 2rem; 
+    padding-bottom: 0.6rem;
+    padding-right: 0.6rem; 
+    width: 93%;
+}
+
+.todo-content {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.upper-todo-inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.title-input, .details-input, .project-title {
+    border: none; 
+    outline: none;
+    background-color: transparent;
+}
+
+.title-input, .project-title {
+    font-size: 1.2rem;
+}
+
+.details-input {
+    font-size: 1rem;
+    width: 100%; 
+}
+
+
+.lower-todo-inputs {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.date-and-priority {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.priority-box{
+    display: flex;
+    align-items: center;
+    gap: 1.3rem;
+    font-family: 'lato-regular';
+}
+
+.date-box {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'lato-regular';
+}
+
+#date {
+    border: 1px solid lightgray; 
+    border-radius: 5px;
+    width: 6.6rem;
+    height: 1.6rem;
+    color: gray;
+    padding-right: 1rem;
+    padding-left: 1rem;
+}
+
+#priority-selector {
+    display: flex;
+    gap: 1rem;
+}
+
+.priority-button {
+    border-radius: 5px;
+    background-color: transparent;
+    height: 1.5rem;
+    width: 5rem;
+}
+
+.priority-button:hover {
+    cursor: pointer;
+}
+
+.add-todo {
+    font-size: 0.8rem;
+    height: 1.9rem;
+    width: 6.5rem;
+    border-radius: 4px;
+    border: 1.5px solid #5c9cf5;  
+    background-color: transparent;
+    color: #5c9cf5;
+    font-family: 'lato-bold';
+}
+
+.add-todo:hover, .create-project-btn:hover {
+    cursor: pointer;
+    border: 1px solid #5c9cf5;  
+    background-color: #5c9cf5;
+    color: white;
+}
+
+
+.project-page {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.create-project-btn {
+    width: 20%;
+    height: 1.9rem;
+    border-radius: 4px;
+    font-family: 'lato-bold';
+    border: 1.5px solid #5c9cf5; 
+    color: #5c9cf5;
+    background-color: transparent;
+}
+

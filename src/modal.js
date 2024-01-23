@@ -1,7 +1,10 @@
-function createButton(text) {
+import showToDoPage from "./todoUI";
+import showProjectPage from "./projectUI";
+
+function createButton(text, onClick) {
     const button = document.createElement('li'); 
     button.textContent = text; 
-    //button.addEventListener('click', onClick);
+    button.addEventListener('click', onClick);
     return button; 
 }
 
@@ -30,8 +33,8 @@ function createModalSidebar() {
     const sidebarOptions = document.createElement('div'); 
     sidebarOptions.classList.add('modal-sidebar-options');
     sidebarOptions.append(
-        createButton('To Do'),
-        createButton('Project'),
+        createButton('To Do', () => showToDoPage()),
+        createButton('Project', () => showProjectPage()),
         createButton('Note')
     ); 
 
@@ -39,6 +42,7 @@ function createModalSidebar() {
 
     return modalSidebar; 
 }
+
 
 function openModal() {
     const modal = document.createElement('div'); 
@@ -55,7 +59,6 @@ function openModal() {
 
     const modalText = document.createElement('p'); 
     modalText.classList.add('modal-text'); 
-    modalText.textContent = 'Some text in the modal..'; 
 
     modalContent.append(modalSideBar, modalText)
 
@@ -78,8 +81,10 @@ function showModal() {
     let modal = document.querySelector('.modal');
     if (!modal) {
         openModal(); 
+        showProjectPage()
     } else {
         modal.style.display = 'block';
+        showProjectPage()
     }
 }
 
