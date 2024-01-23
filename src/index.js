@@ -1,9 +1,17 @@
 import './style.css'; 
+import showModal from './modal.js'; 
 
 function createButton(text) {
     const button = document.createElement('li'); 
     button.textContent = text; 
     //button.addEventListener('click', onClick);
+    return button; 
+}
+
+function createButtonWithEvent(text, onClick) {
+    const button = document.createElement('li'); 
+    button.textContent = text; 
+    button.addEventListener('click', onClick);
     return button; 
 }
 
@@ -21,7 +29,7 @@ function createSidebar(){
         createButton('📖 Notes')
     );
 
-    const createNew = createButton('+'); 
+    const createNew = createButtonWithEvent('+', () => showModal()); 
     createNew.classList.add('create-new'); 
 
     sidebar.append(sidebarOptions, createNew); 
