@@ -1,5 +1,6 @@
 import showToDoPage from "./todoUI";
 import showProjectPage from "./projectUI";
+import showNotePage from "./noteUI";
 
 function createButton(text, onClick) {
     const button = document.createElement('li'); 
@@ -35,7 +36,7 @@ function createModalSidebar() {
     sidebarOptions.append(
         createButton('To Do', () => showToDoPage()),
         createButton('Project', () => showProjectPage()),
-        createButton('Note')
+        createButton('Note', () => showNotePage())
     ); 
 
     modalSidebar.appendChild(sidebarOptions); 
@@ -81,10 +82,9 @@ function showModal() {
     let modal = document.querySelector('.modal');
     if (!modal) {
         openModal(); 
-        showProjectPage()
+        showToDoPage();
     } else {
         modal.style.display = 'block';
-        showProjectPage()
     }
 }
 
