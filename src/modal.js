@@ -1,13 +1,8 @@
 import showToDoPage from "./todoUI";
 import showProjectPage from "./projectUI";
 import showNotePage from "./noteUI";
-
-function createButton(text, onClick) {
-    const button = document.createElement('li'); 
-    button.textContent = text; 
-    button.addEventListener('click', onClick);
-    return button; 
-}
+import { createButton } from "./UIhelper";
+import { todo } from "./todoLogic";
 
 function createModalHeader(modal) {
     const modalHeader = document.createElement('div'); 
@@ -20,6 +15,7 @@ function createModalHeader(modal) {
 
     closeButton.addEventListener('click', function() {
         modal.style.display = 'none'; 
+        clearModalContent();
     });
 
     modalHeader.appendChild(closeButton); 
@@ -44,8 +40,7 @@ function createModalSidebar() {
     return modalSidebar; 
 }
 
-
-function openModal() {
+function renderModal() {
     const modal = document.createElement('div'); 
     modal.classList.add('modal'); 
 
@@ -68,13 +63,48 @@ function openModal() {
 
     document.body.appendChild(modal); 
 
+    return modal; 
+}
+
+
+function openModal() {
+    const modal = renderModal(); 
     modal.style.display = 'block'; 
+}
+
+function clearModalContent() {
+    //reset text inputs
+    const projectContent = document.querySelector('.project-page');
+    const todoContent = document.querySelector('.upper-todo-inputs');
+    const noteContent = document.querySelector('.note-upper'); 
+    
+    const projectInputs = projectContent ? projectContent.querySelectorAll('input') : []; 
+    const todoInputs = todoContent ? todoContent.querySelectorAll('input') : []; 
+    const noteInputs = noteContent ? noteContent.querySelectorAll('input') : []; 
+
+    const allInputs = Array.from(projectInputs).concat(Array.from(todoInputs), Array.from(noteInputs));
+
+    allInputs.forEach(input => {
+        input.value = ''; 
+    }); 
+
+    //reset date input
+    const dateInput = document.getElementById('date'); 
+    dateInput.value = ''; 
+
+    //reset priority buttons
+    document.querySelectorAll('.priority-button').forEach(btn => {
+        btn.classList.remove('selected');
+        btn.style.backgroundColor = '';
+        btn.style.color = btn.dataset.priorityColor;   // Reset to original background
+    });
 }
 
 window.addEventListener('click', function(event) {
     const modal = document.querySelector('.modal');
     if (event.target === modal) {
         modal.style.display = 'none';
+        clearModalContent(); 
     }
 });
 
@@ -84,6 +114,7 @@ function showModal() {
         openModal(); 
         showToDoPage();
     } else {
+        showToDoPage();
         modal.style.display = 'block';
     }
 }

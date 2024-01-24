@@ -1,19 +1,7 @@
 import './style.css'; 
 import showModal from './modal.js'; 
-
-function createButton(text) {
-    const button = document.createElement('li'); 
-    button.textContent = text; 
-    //button.addEventListener('click', onClick);
-    return button; 
-}
-
-function createButtonWithEvent(text, onClick) {
-    const button = document.createElement('li'); 
-    button.textContent = text; 
-    button.addEventListener('click', onClick);
-    return button; 
-}
+import showHomePage from './homepage';
+import { createButton } from './UIhelper';
 
 function createSidebar(){
     const sidebar = document.createElement('div'); 
@@ -21,7 +9,7 @@ function createSidebar(){
     
     const sidebarOptions = document.createElement('ul'); 
     sidebarOptions.append(
-        createButton('🏠 Home'),
+        createButton('🏠 Home', () => showHomePage()),
         createButton('⭐ Today'),
         createButton('📚 This week'),
         createButton('📆 Upcoming'),
@@ -29,7 +17,7 @@ function createSidebar(){
         createButton('📖 Notes')
     );
 
-    const createNew = createButtonWithEvent('+', () => showModal()); 
+    const createNew = createButton('+', () => showModal()); 
     createNew.classList.add('create-new'); 
 
     sidebar.append(sidebarOptions, createNew); 
@@ -40,5 +28,4 @@ function createSidebar(){
 const content = document.getElementById('content');
 const body = document.createElement('div'); 
 body.classList.add('body'); 
-body.textContent = 'test'; 
 content.append(createSidebar(), body);  

@@ -5,7 +5,7 @@ function renderNotePage() {
     notePage.classList.add('page'); 
     notePage.id = 'note-container'; 
 
-    const noteContent = document.createElement('div'); 
+    const noteContent = document.createElement('form'); 
     noteContent.classList.add('note-page'); 
 
     const upperContent = document.createElement('div');
@@ -16,8 +16,8 @@ function renderNotePage() {
     createNoteButton.classList.add('create-note-btn'); 
 
     upperContent.append(
-        createInputElement('text', 'note-title', 'note-title', 'Title: Study session monday', 'note-title'),
-        createInputElement('text', 'note-details', 'note-details', 'Details: Study session details...', 'note-details')
+        createInputElement('text', 'note-title', 'note-title', 'Title: Study session monday', 'input'),
+        createInputElement('text', 'note-details', 'note-details', 'Details: Study session details...', 'input')
     );
 
     noteContent.append(
@@ -36,7 +36,7 @@ function renderNotePage() {
 
 function showNotePage() {
     hideAllPages(); 
-    let notePage = document.getElementById('note-page');
+    let notePage = document.getElementById('note-container');
     if (!notePage) {
         renderNotePage(); 
     } else {

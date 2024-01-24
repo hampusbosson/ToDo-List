@@ -54,15 +54,15 @@ function renderToDoPage() {
     todoPage.id = 'todo-page'; 
     todoPage.classList.add('page'); 
 
-    const todoContent = document.createElement('div');
+    const todoContent = document.createElement('form');
     todoContent.classList.add('todo-content');
 
     const upperInputs = document.createElement('div');
     upperInputs.classList.add('upper-todo-inputs'); 
 
     upperInputs.append(
-        createInputElement('text', 'title', 'title', 'Title: Pay Bills', 'title-input'),
-        createInputElement('text', 'details', 'details', 'Details: eg internet, phone, rent.', 'details-input')
+        createInputElement('text', 'title-input', 'title', 'Title: Pay Bills', 'input'),
+        createInputElement('text', 'details-input', 'details', 'Details: eg internet, phone, rent.', 'input')
     );
 
     const lowerInputs = document.createElement('div'); 

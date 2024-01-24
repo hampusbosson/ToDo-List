@@ -5,7 +5,7 @@ function renderProjectPage() {
     projectPage.classList.add('page'); 
     projectPage.id = 'project-container'; 
 
-    const projectContent = document.createElement('div'); 
+    const projectContent = document.createElement('form'); 
     projectContent.classList.add('project-page'); 
 
     const createProjectButton = document.createElement('button'); 
@@ -13,7 +13,7 @@ function renderProjectPage() {
     createProjectButton.classList.add('create-project-btn');
 
     projectContent.append(
-        createInputElement('text', 'project-title', 'project-title', 'Title: House Renovation', 'project-title'),
+        createInputElement('text', 'project-title', 'project-title', 'Title: House Renovation', 'input'),
         createProjectButton
     ); 
 
@@ -28,7 +28,7 @@ function renderProjectPage() {
 
 function showProjectPage() {
     hideAllPages(); 
-    let projectPage = document.getElementById('project-page');
+    let projectPage = document.getElementById('project-container');
     if (!projectPage) {
         renderProjectPage(); 
     } else {

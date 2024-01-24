@@ -12,10 +12,25 @@ function createInputElement(type, id, name, placeholder, classList) {
 }
 
 function hideAllPages() {
-    const pages = document.querySelectorAll('.page'); // Assuming all your pages have the 'page' class
+    const pages = document.querySelectorAll('.page'); 
     pages.forEach(page => {
         page.style.display = 'none';
     });
 }
 
-export { createInputElement, hideAllPages }; 
+function hideAllHomePages() {
+    const pages = document.querySelectorAll('.home-page'); 
+    pages.forEach(page => {
+        page.style.display = 'none';
+    });
+}
+
+function createButton(text, onClick) {
+    const button = document.createElement('li'); 
+    button.textContent = text; 
+    button.addEventListener('click', onClick);
+    return button; 
+}
+
+
+export { createInputElement, hideAllPages, createButton, hideAllHomePages }; 
