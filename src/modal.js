@@ -30,9 +30,9 @@ function createModalSidebar() {
     const sidebarOptions = document.createElement('div'); 
     sidebarOptions.classList.add('modal-sidebar-options');
     sidebarOptions.append(
-        createButton('To Do', () => showToDoPage()),
-        createButton('Project', () => showProjectPage()),
-        createButton('Note', () => showNotePage())
+        createButton('li', 'To Do', 'modal-button', () => showToDoPage()),
+        createButton('li', 'Project',  'modal-button', () => showProjectPage()),
+        createButton('li', 'Note',  'modal-button', () => showNotePage())
     ); 
 
     modalSidebar.appendChild(sidebarOptions); 
@@ -66,6 +66,10 @@ function renderModal() {
     return modal; 
 }
 
+function closeModal() {
+    const modal = document.querySelector('.modal'); // Adjust selector as needed
+    modal.style.display = 'none';
+}
 
 function openModal() {
     const modal = renderModal(); 
@@ -103,7 +107,7 @@ function clearModalContent() {
 window.addEventListener('click', function(event) {
     const modal = document.querySelector('.modal');
     if (event.target === modal) {
-        modal.style.display = 'none';
+        closeModal(); 
         clearModalContent(); 
     }
 });
@@ -119,4 +123,4 @@ function showModal() {
     }
 }
 
-export default showModal; 
+export { showModal, closeModal }; 

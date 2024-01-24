@@ -1,4 +1,6 @@
-import { createInputElement, hideAllPages } from "./UIhelper";
+import { createInputElement, hideAllPages, createButton } from "./UIhelper";
+import { renderHomePage, addNewTodo } from "./homepage";
+import { closeModal } from "./modal";
 
 function createPriroitySelector() {
     const prioritySelector = document.createElement('div'); 
@@ -50,11 +52,11 @@ function createPriorityButton(priority) {
 }
 
 function renderToDoPage() {
-    const todoPage = document.createElement('div'); 
+    const todoPage = document.createElement('form'); 
     todoPage.id = 'todo-page'; 
     todoPage.classList.add('page'); 
 
-    const todoContent = document.createElement('form');
+    const todoContent = document.createElement('div');
     todoContent.classList.add('todo-content');
 
     const upperInputs = document.createElement('div');
@@ -98,13 +100,11 @@ function renderToDoPage() {
         priorityBox
     );
 
-    const addToDoButton = document.createElement('button');
-    addToDoButton.classList.add('add-todo');
-    addToDoButton.textContent = 'ADD TO DO'; 
-
     lowerInputs.append(
         dateAndPriorityBox,
-        addToDoButton
+        createButton('button', 'ADD TO DO', 'add-todo', () => {
+            addNewTodo(); 
+        })
     );
     
 
