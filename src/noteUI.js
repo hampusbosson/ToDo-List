@@ -1,4 +1,4 @@
-import { createInputElement, hideAllPages } from "./UIhelper";
+import { createInputElement, hideAllPages, createButton } from "./UIhelper";
 
 function renderNotePage() {
     const notePage = document.createElement('div'); 
@@ -11,10 +11,6 @@ function renderNotePage() {
     const upperContent = document.createElement('div');
     upperContent.classList.add('note-upper');
 
-    const createNoteButton = document.createElement('button'); 
-    createNoteButton.textContent = 'CREATE NOTE'; 
-    createNoteButton.classList.add('create-note-btn'); 
-
     upperContent.append(
         createInputElement('text', 'note-title', 'note-title', 'Title: Study session monday', 'input'),
         createInputElement('text', 'note-details', 'note-details', 'Details: Study session details...', 'input')
@@ -22,7 +18,7 @@ function renderNotePage() {
 
     noteContent.append(
         upperContent,
-        createNoteButton
+        createButton('button', 'CREATE NOTE', 'create-note-btn')
     ); 
 
     notePage.appendChild(noteContent);     

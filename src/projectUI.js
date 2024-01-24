@@ -1,4 +1,4 @@
-import { createInputElement, hideAllPages } from "./UIhelper";
+import { createInputElement, hideAllPages, createButton } from "./UIhelper";
 
 function renderProjectPage() {
     const projectPage = document.createElement('div'); 
@@ -8,13 +8,9 @@ function renderProjectPage() {
     const projectContent = document.createElement('form'); 
     projectContent.classList.add('project-page'); 
 
-    const createProjectButton = document.createElement('button'); 
-    createProjectButton.textContent = 'CREATE PROJECT'; 
-    createProjectButton.classList.add('create-project-btn');
-
     projectContent.append(
         createInputElement('text', 'project-title', 'project-title', 'Title: House Renovation', 'input'),
-        createProjectButton
+        createButton('button', 'CREATE PROJECT', 'create-project-btn')
     ); 
 
     projectPage.appendChild(projectContent);     
