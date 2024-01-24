@@ -1,8 +1,10 @@
-import { hideAllHomePages } from "./UIhelper";
+import { createButton, hideAllHomePages } from "./UIhelper";
 import { Todo, TodoList } from "./todoLogic";
 import { closeModal } from "./modal";
 
 const todoList = new TodoList(); 
+
+
 
 function renderTodoBox() {
     const todoBox = document.createElement('div');
@@ -26,18 +28,66 @@ function renderTodoBox() {
     return todoBox; 
 }
 
+
 function createTodoElement(todo) {
     const todoElement = document.createElement('div');
     todoElement.textContent = `Title: ${todo.title}, Details: ${todo.details}, Date: ${todo.date}, Priority: ${todo.priority}`;
     return todoElement;
 }
 
-function renderHomePage() {
+function temporaryTodoBox() {
+    const homepage = document.createElement('div'); 
+    homepage.classList.add('home-page'); 
+    homepage.id = 'homepage-container'; 
+
+    const homepageContent = document.createElement('div'); 
+    homepageContent.classList.add('homepage-content'); 
+
+    const homepageTitle = document.createElement('div'); 
+    homepageTitle.classList.add('page-title'); 
+    homepageTitle.textContent = '🏠 Home';
+
+
+    const todoBox = renderTodoBox();
+    const todo = new Todo('Title', 'some details here blah blah blah', '1999-10-16', 'MEDIUM');
+    const checkbox = document.createElement('input');
+    checkbox.classList.add('check-box');
+    checkbox.type = 'checkbox';
+    checkbox.id = 'cbtest-19'; // Set a unique ID for the checkbox
+    checkbox.name = 'checkbox'; // Set a name for the checkbox
+ 
+
+    const detailsButton = createButton('button', 'DETAILS', 'details-button'); 
+    const editButton = createButton('button', 'EDIT', 'edit-button'); 
+    const deleteButton = createButton('button', 'DELETE', 'delete-button'); 
+
+    const leftItems = document.createElement('div'); 
+    leftItems.classList.add('left-bar'); 
+    const rightItems = document.createElement('div'); 
+    rightItems.classList.add('right-bar'); 
+
+    leftItems.append(checkbox, todo.title); 
+    rightItems.append(detailsButton, todo.date, editButton, deleteButton); 
+    todoBox.append(leftItems, rightItems); 
+
+    homepageContent.append(homepageTitle, todoBox); 
+    
+    homepage.appendChild(homepageContent); 
+
+    const body = document.querySelector('.body');
+    body.appendChild(homepage); 
+    
+    homepage.style.display = 'block'; 
+}
+
+/*function renderHomePage() {
     const homepage = document.createElement('div'); 
     homepage.classList.add('home-page'); 
     homepage.id = 'homepage-container'; 
 
     const todoBox = renderTodoBox();
+    const todo = new Todo('Title', 'some details here blah blah blah', '1999-10-16', 'MEDIUM')
+    todoBox.append(todo.title); 
     
     homepage.appendChild(todoBox); 
 
@@ -46,7 +96,7 @@ function renderHomePage() {
     
     homepage.style.display = 'block'; 
 }
-
+*/
 
 
 function addNewTodo() {
@@ -96,7 +146,7 @@ function showHomePage() {
     hideAllHomePages(); 
     let homepage = document.querySelector('.home-page');
     if (!homepage) {
-        renderHomePage(); 
+        temporaryTodoBox(); 
     } else {
         homepage.style.display = 'block';
     }
