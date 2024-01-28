@@ -1,8 +1,10 @@
+import { format } from "date-fns";
+
 class Todo {
     constructor(title, details, date, priority) {
         this.title = title; 
         this.details = details; 
-        this.date = date; 
+        this.date = format(new Date(date), "LLL do"); 
         this.priority = priority; 
     }
 }
