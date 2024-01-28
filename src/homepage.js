@@ -1,4 +1,4 @@
-import { createButton, hideAllHomePages } from "./UIhelper";
+import { createButton, hideAllHomePages, createIconButton } from "./UIhelper";
 import { Todo, TodoList } from "./todoLogic";
 import { closeModal } from "./modal";
 
@@ -69,16 +69,20 @@ function temporaryTodoBox() {
  
 
     const detailsButton = createButton('button', 'DETAILS', 'details-button'); 
-    const editButton = createButton('button', 'EDIT', 'edit-button'); 
-    const deleteButton = createButton('button', 'DELETE', 'delete-button'); 
+    const editButton = createIconButton('button', 'edit-button'); 
+    const deleteButton = createIconButton('button', 'delete-button'); 
 
     const leftItems = document.createElement('div'); 
     leftItems.classList.add('left-bar'); 
     const rightItems = document.createElement('div'); 
     rightItems.classList.add('right-bar'); 
+    const rightButtons = document.createElement('div')
+    rightButtons.classList.add('right-buttons'); 
+
 
     leftItems.append(checkboxWrapper, todo.title); 
-    rightItems.append(detailsButton, todo.date, editButton, deleteButton); 
+    rightButtons.append(editButton, deleteButton);
+    rightItems.append(detailsButton, todo.date, rightButtons); 
     todoBox.append(leftItems, rightItems); 
 
     homepageContent.append(homepageTitle, todoBox); 
