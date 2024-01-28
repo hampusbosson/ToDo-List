@@ -50,11 +50,22 @@ function temporaryTodoBox() {
 
     const todoBox = renderTodoBox();
     const todo = new Todo('Title', 'some details here blah blah blah', '1999-10-16', 'MEDIUM');
+    const checkboxWrapper = document.createElement('div');
+    checkboxWrapper.classList.add('checkbox-wrapper-19');
+    
+    // Create the checkbox input
     const checkbox = document.createElement('input');
-    checkbox.classList.add('check-box');
     checkbox.type = 'checkbox';
-    checkbox.id = 'cbtest-19'; // Set a unique ID for the checkbox
-    checkbox.name = 'checkbox'; // Set a name for the checkbox
+    checkbox.id = 'cbtest-19';
+    
+    // Create the label
+    const label = document.createElement('label');
+    label.setAttribute('for', 'cbtest-19');
+    label.classList.add('check-box');
+    
+    // Append the checkbox and label to the wrapper
+    checkboxWrapper.appendChild(checkbox);
+    checkboxWrapper.appendChild(label);
  
 
     const detailsButton = createButton('button', 'DETAILS', 'details-button'); 
@@ -66,7 +77,7 @@ function temporaryTodoBox() {
     const rightItems = document.createElement('div'); 
     rightItems.classList.add('right-bar'); 
 
-    leftItems.append(checkbox, todo.title); 
+    leftItems.append(checkboxWrapper, todo.title); 
     rightItems.append(detailsButton, todo.date, editButton, deleteButton); 
     todoBox.append(leftItems, rightItems); 
 
