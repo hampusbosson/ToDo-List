@@ -4,8 +4,6 @@ import { closeModal } from "./modal";
 
 const todoList = new TodoList(); 
 
-
-
 function renderTodoBox() {
     const todoBox = document.createElement('div');
     todoBox.classList.add('todo-box'); 
@@ -14,13 +12,14 @@ function renderTodoBox() {
 
     // If homepage is in view, append only the latest todo
     if (homepage && todoList.todos.length > 0) {
+        const index = todoList.todos.length - 1;
         const latestTodo = todoList.todos[todoList.todos.length - 1];
-        const todoElement = createTodoElement(latestTodo);
+        const todoElement = createTodoElement(latestTodo, index);
         todoBox.appendChild(todoElement);
     } else {
         // If homepage is not in view, append the entire list
-        todoList.todos.forEach(todo => {
-            const todoElement = createTodoElement(todo);
+        todoList.todos.forEach((todo, index) => {
+            const todoElement = createTodoElement(todo, index);
             todoBox.appendChild(todoElement);
         });
     }
@@ -28,45 +27,29 @@ function renderTodoBox() {
     return todoBox; 
 }
 
-
-function createTodoElement(todo) {
+function createTodoElement(todo, index) {
     const todoElement = document.createElement('div');
-    todoElement.textContent = `Title: ${todo.title}, Details: ${todo.details}, Date: ${todo.date}, Priority: ${todo.priority}`;
-    return todoElement;
-}
-
-function temporaryTodoBox() {
-    const homepage = document.createElement('div'); 
-    homepage.classList.add('home-page'); 
-    homepage.id = 'homepage-container'; 
-
-    const homepageContent = document.createElement('div'); 
-    homepageContent.classList.add('homepage-content'); 
-
-    const homepageTitle = document.createElement('div'); 
-    homepageTitle.classList.add('page-title'); 
-    homepageTitle.textContent = '🏠 Home';
-
-
-    const todoBox = renderTodoBox();
-    const todo = new Todo('Title', 'some details here blah blah blah', '1999-10-16', 'MEDIUM');
+    todoElement.classList.add('todo-element');
     const checkboxWrapper = document.createElement('div');
     checkboxWrapper.classList.add('checkbox-wrapper-19');
     
     // Create the checkbox input
     const checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
-    checkbox.id = 'cbtest-19';
+    const checkboxId = 'cbtest-19' + index;
+    checkbox.id = checkboxId; 
     
     // Create the label
     const label = document.createElement('label');
-    label.setAttribute('for', 'cbtest-19');
+    label.setAttribute('for', checkboxId);
     label.classList.add('check-box');
     
     // Append the checkbox and label to the wrapper
-    checkboxWrapper.appendChild(checkbox);
-    checkboxWrapper.appendChild(label);
- 
+    checkboxWrapper.append(checkbox, label);
+    
+    const dateText = document.createElement('div'); 
+    dateText.classList.add('date-text'); 
+    dateText.append(todo.date); 
 
     const detailsButton = createButton('button', 'DETAILS', 'details-button'); 
     const editButton = createIconButton('button', 'edit-button'); 
@@ -82,10 +65,25 @@ function temporaryTodoBox() {
 
     leftItems.append(checkboxWrapper, todo.title); 
     rightButtons.append(editButton, deleteButton);
-    rightItems.append(detailsButton, todo.date, rightButtons); 
-    todoBox.append(leftItems, rightItems); 
+    rightItems.append(detailsButton, dateText, rightButtons); 
+    todoElement.append(leftItems, rightItems); 
 
-    homepageContent.append(homepageTitle, todoBox); 
+    return todoElement;
+}
+
+function renderHomePage() {
+    const homepage = document.createElement('div'); 
+    homepage.classList.add('home-page'); 
+    homepage.id = 'homepage-container'; 
+
+    const homepageContent = document.createElement('div'); 
+    homepageContent.classList.add('homepage-content'); 
+
+    const homepageTitle = document.createElement('div'); 
+    homepageTitle.classList.add('page-title'); 
+    homepageTitle.textContent = '🏠 Home';
+
+    homepageContent.appendChild(homepageTitle); 
     
     homepage.appendChild(homepageContent); 
 
@@ -143,12 +141,12 @@ function addNewTodo() {
 }
 
 function updateTodoBox() {
-    const homepage = document.querySelector('.home-page');
+    const homepageContent = document.querySelector('.homepage-content');
     
-    if (homepage) {
+    if (homepageContent) {
         // Create a new todoBox and append it to the homepage
         const newTodoBox = renderTodoBox();
-        homepage.appendChild(newTodoBox);
+        homepageContent.appendChild(newTodoBox);
     }
 }
 
@@ -161,7 +159,7 @@ function showHomePage() {
     hideAllHomePages(); 
     let homepage = document.querySelector('.home-page');
     if (!homepage) {
-        temporaryTodoBox(); 
+        renderHomePage(); 
     } else {
         homepage.style.display = 'block';
     }

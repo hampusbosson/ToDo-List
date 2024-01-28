@@ -297,8 +297,8 @@ li:hover {
 }
 
 .homepage-content {
-    margin-left: 23rem;
-    margin-right: 23rem;
+    margin-left: 15rem;
+    margin-right: 15rem;
     margin-top: 6rem;
     display: flex;
     flex-direction: column;
@@ -310,8 +310,9 @@ li:hover {
     font-size: 2rem;
 }
 
-.todo-box {
+.todo-element {
     display: flex;
+    flex-direction: row;
     justify-content: space-between;
     align-items: center;
     padding-right: 0.8rem;
@@ -321,7 +322,7 @@ li:hover {
     gap: 8rem;
     background-color: #f2f5f7;
     border: 1px solid rgba(0, 0, 0, 0.15); 
-    border-radius: 5px;
+    border-radius: 2px;
     border-left: 4px solid #5c9cf5;
     font-family: 'lato';
     font-size: 1.2rem;
@@ -341,6 +342,13 @@ li:hover {
 .right-buttons {
     display: flex;
     gap: 0.6rem; 
+}
+
+.date-text {
+    width: 3.8rem; 
+    font-size: 0.95rem;
+    font-family: 'lato-regular';
+    
 }
 
 .details-button {
