@@ -33,5 +33,14 @@ function createButton(type, text, classList, onClick) {
     return button; 
 }
 
+function createIconButton(type, classList, onClick) {
+    const button = document.createElement(type); 
+    button.classList.add(classList); 
+    button.addEventListener('click', onClick);
+    return button; 
+}
 
-export { createInputElement, hideAllPages, createButton, hideAllHomePages }; 
+
+
+
+export { createInputElement, hideAllPages, createButton, hideAllHomePages, createIconButton }; 
