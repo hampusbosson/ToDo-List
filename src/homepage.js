@@ -5,8 +5,6 @@ import { showDetailsModal } from "./detailsModal";
 
 const todoList = new TodoList(); 
 
-
-
 function renderTodoBox() {
     const todoBox = document.createElement('div');
     todoBox.classList.add('todo-box'); 
@@ -33,6 +31,7 @@ function renderTodoBox() {
 function createTodoElement(todo, index) {
     const todoElement = document.createElement('div');
     todoElement.classList.add('todo-element');
+    todoElement.id = index; 
     const checkboxWrapper = document.createElement('div');
     checkboxWrapper.classList.add('checkbox-wrapper-19');
     
@@ -59,7 +58,9 @@ function createTodoElement(todo, index) {
     }); 
 
     const editButton = createIconButton('button', 'edit-button'); 
-    const deleteButton = createIconButton('button', 'delete-button'); 
+    const deleteButton = createIconButton('button', 'delete-button', () => {
+        deleteTodoElement(index); 
+    }); 
 
     const leftItems = document.createElement('div'); 
     leftItems.classList.add('left-bar'); 
@@ -75,6 +76,16 @@ function createTodoElement(todo, index) {
     todoElement.append(leftItems, rightItems); 
 
     return todoElement;
+}
+
+function deleteTodoElement(index) {
+    const todoElement = document.getElementById(index);
+    const parent = todoElement.parentElement;
+
+    // Remove the parent element from its own parent
+    if (parent && parent.parentElement) {
+        parent.parentElement.removeChild(parent);
+    }
 }
 
 function renderHomePage() {
