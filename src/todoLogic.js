@@ -5,7 +5,11 @@ class Todo {
         this.title = title; 
         this.details = details; 
         this.date = format(new Date(date), "LLL do"); 
-        this.priority = priority; 
+        this.priority = this.capitalize(priority); 
+    }
+
+    capitalize(str) {
+        return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
     }
 }
 
