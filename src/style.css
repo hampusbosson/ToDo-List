@@ -77,7 +77,7 @@ li:hover {
     font-size: 4rem;
 }
 
-.modal {
+.modal, .details-modal {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
     z-index: 1; /* Sit on top */
@@ -87,6 +87,9 @@ li:hover {
     min-height: 100vh; /* Full height */
     overflow: auto; /* Enable scroll if needed */
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    display: flex; /* Use flexbox */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
 }
 
 .modal-header {
@@ -392,6 +395,67 @@ li:hover {
     cursor: pointer;
 }
 
+.details-modal-container {
+    display: flex;
+    justify-content: space-between;
+    background-color: #f2f5f7;
+    border: 1px solid #888;
+    width: 30%; 
+    height: 15rem; 
+    border: 1px solid rgba(0, 0, 0, 0.556);
+    min-width: 40rem; 
+    border-radius: 10px;
+    border-left: 5px solid #5c9cf5; 
+}
+
+.details-close-button {
+    color: #000000;
+    float: right;
+    font-family: 'lato-regular';
+    margin-right: 1rem;
+    margin-top: 0.4rem;
+    font-size: 1.8rem;
+    height: max-content;
+}
+
+.details-close-button:hover,
+.details-close-button:focus {
+    color: rgba(0, 0, 0, 0.586);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.todo-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: 3rem;
+}
+
+.details-title {
+    font-size: 2rem;
+    font-family: 'lato-regular';
+    text-decoration: underline;
+}
+
+.details-box {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.left-details, .right-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem; 
+}
+
+.left-details {
+    font-family: 'lato-bold';
+}
+
+.right-details {
+    font-family: 'lato-regular';
+}
 
 
 /* styling for checkbox */

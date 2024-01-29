@@ -1,8 +1,11 @@
 import { createButton, hideAllHomePages, createIconButton } from "./UIhelper";
 import { Todo, TodoList } from "./todoLogic";
 import { closeModal } from "./modal";
+import { showDetailsModal } from "./detailsModal";
 
 const todoList = new TodoList(); 
+
+
 
 function renderTodoBox() {
     const todoBox = document.createElement('div');
@@ -51,7 +54,10 @@ function createTodoElement(todo, index) {
     dateText.classList.add('date-text'); 
     dateText.append(todo.date); 
 
-    const detailsButton = createButton('button', 'DETAILS', 'details-button'); 
+    const detailsButton = createButton('button', 'DETAILS', 'details-button', () => {
+        showDetailsModal(todoList.todos[index]);
+    }); 
+
     const editButton = createIconButton('button', 'edit-button'); 
     const deleteButton = createIconButton('button', 'delete-button'); 
 
@@ -92,24 +98,6 @@ function renderHomePage() {
     
     homepage.style.display = 'block'; 
 }
-
-/*function renderHomePage() {
-    const homepage = document.createElement('div'); 
-    homepage.classList.add('home-page'); 
-    homepage.id = 'homepage-container'; 
-
-    const todoBox = renderTodoBox();
-    const todo = new Todo('Title', 'some details here blah blah blah', '1999-10-16', 'MEDIUM')
-    todoBox.append(todo.title); 
-    
-    homepage.appendChild(todoBox); 
-
-    const body = document.querySelector('.body');
-    body.appendChild(homepage); 
-    
-    homepage.style.display = 'block'; 
-}
-*/
 
 
 function addNewTodo() {
