@@ -2,6 +2,7 @@ import { createButton, hideAllHomePages, createIconButton } from "./UIhelper";
 import { Todo, TodoList } from "./todoLogic";
 import { closeModal } from "./modal";
 import { showDetailsModal } from "./detailsModal";
+import { showEditModal } from "./editModal";
 
 const todoList = new TodoList(); 
 
@@ -12,7 +13,7 @@ function renderTodoBox() {
     let homepage = document.querySelector('.home-page');
 
     // If homepage is in view, append only the latest todo
-    if (homepage && todoList.todos.length > 0) {
+    if (homepage && todoList.todos.length > 0) { 
         const index = todoList.todos.length - 1;
         const latestTodo = todoList.todos[todoList.todos.length - 1];
         const todoElement = createTodoElement(latestTodo, index);
@@ -57,7 +58,9 @@ function createTodoElement(todo, index) {
         showDetailsModal(todoList.todos[index]);
     }); 
 
-    const editButton = createIconButton('button', 'edit-button'); 
+    const editButton = createIconButton('button', 'edit-button', () => {
+        showEditModal(todoList.todos[index]);
+    }); 
     const deleteButton = createIconButton('button', 'delete-button', () => {
         deleteTodoElement(index); 
     }); 
