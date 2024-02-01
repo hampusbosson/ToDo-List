@@ -85,6 +85,7 @@ function renderEditPage(todo, index) {
         dateAndPriorityBox,
         createButton('button', 'CONFIRM EDIT', 'confirm-edit-button', () => {
             editTodoAndDetails(index); 
+            closeEditModal(); 
         }) 
     );
     
