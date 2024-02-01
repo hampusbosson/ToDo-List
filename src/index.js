@@ -2,6 +2,8 @@ import './style.css';
 import { showModal } from './modal.js'; 
 import { showHomePage } from './homepage';
 import { createButton } from './UIhelper';
+import { showDetailsModal } from './detailsModal';
+import { showEditModal } from './editModal.js';
 
 function createSidebar(){
     const sidebar = document.createElement('div'); 
@@ -29,3 +31,5 @@ const content = document.getElementById('content');
 const body = document.createElement('div'); 
 body.classList.add('body'); 
 content.append(createSidebar(), body);  
+showHomePage(); 
+
