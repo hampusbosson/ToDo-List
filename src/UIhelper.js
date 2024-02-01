@@ -11,6 +11,19 @@ function createInputElement(type, id, name, placeholder, classList) {
     return input; 
 }
 
+function createValueInputElement(type, id, name, value, classList) {
+    const input = document.createElement('input'); 
+    input.type = type; 
+    input.id = id; 
+    input.name = name; 
+    input.classList.add(classList); 
+    if (value) { // Only set placeholder if a value is provided
+        input.value = value;
+    }
+    
+    return input; 
+}
+
 function hideAllPages() {
     const pages = document.querySelectorAll('.page'); 
     pages.forEach(page => {
@@ -43,4 +56,4 @@ function createIconButton(type, classList, onClick) {
 
 
 
-export { createInputElement, hideAllPages, createButton, hideAllHomePages, createIconButton }; 
+export { createInputElement, hideAllPages, createButton, hideAllHomePages, createIconButton, createValueInputElement }; 
