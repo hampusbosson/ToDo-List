@@ -79,6 +79,11 @@ function createTodoElement(todo, index) {
     todoTitle.textContent = todo.title; 
     todoTitle.classList.add('todo-title');
 
+    checkbox.addEventListener('click', function() {
+        todoTitle.classList.toggle('todo-title-completed'); 
+        todoElement.classList.toggle('todo-element-completed'); 
+    })
+
     leftItems.append(checkboxWrapper, todoTitle); 
     rightButtons.append(editButton, deleteButton);
     rightItems.append(detailsButton, dateText, rightButtons); 

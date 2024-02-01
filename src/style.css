@@ -513,6 +513,14 @@ li:hover {
     width: min-content;
 }
 
+.todo-title-completed {
+    text-decoration: line-through; /* Draws a line through the text */
+}
+
+.todo-element-completed {
+    opacity: 0.5; /* Reduces the opacity */
+}
+
 
 /* styling for checkbox */
 .checkbox-wrapper-19 {
