@@ -1,4 +1,4 @@
-function renderDetailsModal(todo, index) {
+function renderDetailsModal() {
     const modal = document.createElement('div'); 
     modal.classList.add('details-modal'); 
 
@@ -54,51 +54,9 @@ function renderTodoDetails(todo) {
     const todoPriority = document.createElement('div');
     todoPriority.textContent = `${todo.priority}`;
     const todoDate = document.createElement('div');
-    todoDate.textContent = `${todo.date}`;
+    todoDate.textContent = `${todo.formatDate}`;
     const todoDetails = document.createElement('div');
     todoDetails.textContent = `${todo.details}`;
-
-    leftDetails.append(project, priority, date, details);
-    rightDetails.append(todoProject, todoPriority, todoDate, todoDetails); 
-     
-    detailsBox.append(leftDetails, rightDetails); 
-
-    content.append(detailsTitle, detailsBox); 
-}
-
-function temporayRenderTodoDetails() {
-    const content = document.querySelector('.todo-details');
-
-    const detailsTitle = document.createElement('div');
-    detailsTitle.classList.add('details-title');
-    detailsTitle.textContent = 'Code all day';
-
-    const detailsBox = document.createElement('div');
-    detailsBox.classList.add('details-box');
-
-    const leftDetails = document.createElement('div');
-    leftDetails.classList.add('left-details');
-
-    const rightDetails = document.createElement('div');
-    rightDetails.classList.add('right-details');
-
-    const project = document.createElement('div');
-    project.textContent = 'Project:';
-    const priority = document.createElement('div');
-    priority.textContent = 'Priority:';
-    const date = document.createElement('div');
-    date.textContent = 'Due Date:';
-    const details = document.createElement('div');
-    details.textContent = 'Details:';
-
-    const todoProject = document.createElement('div');
-    todoProject.textContent = 'home';
-    const todoPriority = document.createElement('div');
-    todoPriority.textContent = 'Medium';
-    const todoDate = document.createElement('div');
-    todoDate.textContent = 'Jan 1st';
-    const todoDetails = document.createElement('div');
-    todoDetails.textContent = 'some text blah blah blah';
 
     leftDetails.append(project, priority, date, details);
     rightDetails.append(todoProject, todoPriority, todoDate, todoDetails); 
