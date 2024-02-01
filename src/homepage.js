@@ -3,6 +3,7 @@ import { Todo, TodoList } from "./todoLogic";
 import { closeModal } from "./modal";
 import { showDetailsModal } from "./detailsModal";
 import { showEditModal } from "./editModal";
+import { format } from "date-fns";
 
 const todoList = new TodoList(); 
 
@@ -29,6 +30,7 @@ function renderTodoBox() {
     return todoBox; 
 }
 
+
 function createTodoElement(todo, index) {
     const todoElement = document.createElement('div');
     todoElement.classList.add('todo-element');
@@ -52,15 +54,16 @@ function createTodoElement(todo, index) {
     
     const dateText = document.createElement('div'); 
     dateText.classList.add('date-text'); 
-    dateText.append(todo.date); 
+    dateText.append(todo.formatDate); 
 
     const detailsButton = createButton('button', 'DETAILS', 'details-button', () => {
         showDetailsModal(todoList.todos[index]);
     }); 
 
     const editButton = createIconButton('button', 'edit-button', () => {
-        showEditModal(todoList.todos[index]);
+        showEditModal(todoList.todos[index], index);
     }); 
+
     const deleteButton = createIconButton('button', 'delete-button', () => {
         deleteTodoElement(index); 
     }); 
@@ -72,13 +75,49 @@ function createTodoElement(todo, index) {
     const rightButtons = document.createElement('div')
     rightButtons.classList.add('right-buttons'); 
 
+    const todoTitle = document.createElement('div');
+    todoTitle.textContent = todo.title; 
+    todoTitle.classList.add('todo-title');
 
-    leftItems.append(checkboxWrapper, todo.title); 
+    leftItems.append(checkboxWrapper, todoTitle); 
     rightButtons.append(editButton, deleteButton);
     rightItems.append(detailsButton, dateText, rightButtons); 
     todoElement.append(leftItems, rightItems); 
 
     return todoElement;
+}
+
+function editTodoAndDetails(index) {
+    event.preventDefault(); 
+    // Retrieve the edit form content first to get the new values
+    const editContent = document.getElementById('edit-c' + index);
+    const newTitle = editContent.querySelector('#edit-title-input').value; 
+    let newDate = editContent.querySelector('#edit-date').value.trim(); 
+    newDate = format(new Date(newDate), "LLL do"); 
+    const newDetails = editContent.querySelector('#edit-details-input').value; 
+    const priority = editContent.querySelector('.selected'); 
+    const newPriority = priority.textContent; 
+
+    // Update the todo item in TodoList
+    todoList.todos[index]
+        .changeTitle(newTitle)
+        .changeDate(newDate)
+        .changeDetails(newDetails)
+        .changePriority(newPriority);
+        
+    // Update the DOM elements for the todo item display
+    const todoBox = document.getElementById(index.toString());
+    const titleElement = todoBox.querySelector('.todo-title');
+    const dateElement = todoBox.querySelector('.date-text');
+
+    if (titleElement) {
+        titleElement.textContent = newTitle;
+    }
+    
+    if (dateElement) {
+        dateElement.textContent = newDate; 
+    }
+    
 }
 
 function deleteTodoElement(index) {
@@ -167,4 +206,4 @@ function showHomePage() {
     }
 }
 
-export { showHomePage, addNewTodo }; 
+export { showHomePage, addNewTodo, editTodoAndDetails }; 

@@ -1,12 +1,33 @@
-import { createPriroitySelector } from "./todoUI";
-import { createInputElement, hideAllPages, createButton } from "./UIhelper";
+import { createFilledPriroitySelector } from "./todoUI";
+import { createButton, createValueInputElement } from "./UIhelper";
+import { editTodoAndDetails } from "./homepage";
 
-function renderEditModal(todo, index) {
+
+function renderEditModal() {
     const modal = document.createElement('div'); 
     modal.classList.add('edit-modal'); 
 
     const modalContainer = document.createElement('div'); 
     modalContainer.classList.add('edit-modal-container');
+
+    modal.appendChild(modalContainer);
+
+    document.body.appendChild(modal); 
+
+    return modal; 
+}
+
+function renderEditPage(todo, index) {
+    const editForm = document.createElement('form'); 
+    editForm.id = 'edit-page'; 
+    editForm.classList.add('edit-page'); 
+
+    const editContent = document.createElement('div');
+    editContent.id = 'edit-c' + index; 
+    editContent.classList.add('edit-content');
+
+    const closebuttonContainer = document.createElement('div'); 
+    closebuttonContainer.classList.add('close-button-container');
 
     const closeButton = document.createElement('span'); 
     closeButton.classList.add('edit-close-button'); 
@@ -16,28 +37,14 @@ function renderEditModal(todo, index) {
         closeEditModal(); 
     });
 
-    modalContainer.appendChild(closeButton);
-    modal.appendChild(modalContainer);
-
-    document.body.appendChild(modal); 
-
-    return modal; 
-}
-
-function renderEditPage(todo) {
-    const editForm = document.createElement('form'); 
-    editForm.id = 'edit-page'; 
-    editForm.classList.add('edit-page'); 
-
-    const editContent = document.createElement('div');
-    editContent.classList.add('edit-content');
+    closebuttonContainer.appendChild(closeButton);
 
     const upperInputs = document.createElement('div');
     upperInputs.classList.add('upper-todo-inputs'); 
 
     upperInputs.append(
-        createInputElement('text', 'edit-title-input', 'title', `Title`, 'input'),
-        createInputElement('text', 'edit-details-input', 'details', `Details`, 'input')
+        createValueInputElement('text', 'edit-title-input', 'title', `${todo.title}`, 'input'),
+        createValueInputElement('text', 'edit-details-input', 'details', `${todo.details}`, 'input')
     );
 
     const lowerInputs = document.createElement('div'); 
@@ -50,15 +57,16 @@ function renderEditPage(todo) {
 
     dateInput.append(
         dateLabel,
-        createInputElement('date', 'edit-date', 'edit-date')
+        createValueInputElement('date', 'edit-date', 'edit-date', `${todo.date}`)
     ); 
 
     const priorityBox = document.createElement('div'); 
     priorityBox.classList.add('priority-box');
 
-    const prioritySelector = createPriroitySelector(); 
+    const prioritySelector = createFilledPriroitySelector(todo.priority); 
     const priorityLabel = document.createElement('label'); 
     priorityLabel.textContent = 'Priority: '; 
+
 
     priorityBox.append(
         priorityLabel,
@@ -72,53 +80,56 @@ function renderEditPage(todo) {
         dateInput,
         priorityBox
     );
-
+        console.log(index); 
     lowerInputs.append(
         dateAndPriorityBox,
-        createButton('button', 'CONFIRM EDIT', 'confirm-edit-button')
+        createButton('button', 'CONFIRM EDIT', 'confirm-edit-button', () => {
+            editTodoAndDetails(index); 
+        }) 
     );
     
     editContent.append(upperInputs, lowerInputs); 
     editForm.appendChild(editContent); 
 
     const modalContent = document.querySelector('.edit-modal-container'); 
-    modalContent.appendChild(editForm); 
+    modalContent.append(closebuttonContainer, editForm); 
 
     editContent.style.display = 'flex'; 
 }
+
 
 function closeEditModal() {
     const modal = document.querySelector('.edit-modal'); 
     modal.style.display = 'none';
 
-    const modalContent = document.querySelector('.edit-details');
+    const modalContent = document.querySelector('.edit-modal-container');
     if (modalContent) {
         modalContent.innerHTML = ''; 
     }
 }
 
-function openEditModal(todo) {
-    const modal = renderEditModal(todo); 
+function openEditModal() {
+    const modal = renderEditModal(); 
     modal.style.display = 'flex'; 
     return modal; 
 }
 
 window.addEventListener('click', function(event) {
-    const modal = document.querySelector('.details-modal');
+    const modal = document.querySelector('.edit-modal');
     if (event.target === modal) {
         closeEditModal(); 
     }
 });
 
-function showEditModal(todo) {
-    let modal = document.querySelector('.details-modal');
+function showEditModal(todo, index) {
+    let modal = document.querySelector('.edit-modal');
     if (!modal) {
         openEditModal(); 
     } else {
         modal.style.display = 'flex';
     }
 
-    renderEditPage(todo);
+    renderEditPage(todo, index);
 }
 
 export { showEditModal }; 
