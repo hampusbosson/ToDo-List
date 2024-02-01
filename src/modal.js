@@ -1,8 +1,7 @@
-import showToDoPage from "./todoUI";
+import { showToDoPage } from "./todoUI";
 import showProjectPage from "./projectUI";
 import showNotePage from "./noteUI";
 import { createButton } from "./UIhelper";
-import { todo } from "./todoLogic";
 
 function createModalHeader(modal) {
     const modalHeader = document.createElement('div'); 
