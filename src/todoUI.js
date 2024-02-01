@@ -1,6 +1,5 @@
 import { createInputElement, hideAllPages, createButton } from "./UIhelper";
-import { renderHomePage, addNewTodo } from "./homepage";
-import { closeModal } from "./modal";
+import { addNewTodo } from "./homepage";
 
 function createPriroitySelector() {
     const prioritySelector = document.createElement('div'); 
@@ -14,6 +13,29 @@ function createPriroitySelector() {
 
     priorities.forEach((priority) => {
         const button = createPriorityButton(priority); 
+        prioritySelector.appendChild(button);
+    });
+
+    return prioritySelector; 
+}
+
+function createFilledPriroitySelector(selectedPriority) {
+    const prioritySelector = document.createElement('div'); 
+    prioritySelector.id = 'priority-selector';
+
+    const priorities = [
+        { name: 'LOW', color: 'green' },
+        { name: 'MEDIUM', color: 'orange'},
+        { name: 'HIGH', color: 'red' }
+    ]; 
+
+    priorities.forEach((priority) => {
+        const button = createPriorityButton(priority);
+        if (priority.name.toLowerCase() === selectedPriority.toLowerCase()) {
+            button.classList.add('selected');
+            button.style.backgroundColor = priority.color;
+            button.style.color = 'white';
+        }
         prioritySelector.appendChild(button);
     });
 
@@ -50,6 +72,7 @@ function createPriorityButton(priority) {
 
     return button; 
 }
+
 
 function renderToDoPage() {
     const todoPage = document.createElement('form'); 
@@ -127,4 +150,4 @@ function showToDoPage() {
     }
 }
 
-export default showToDoPage; 
+export { showToDoPage, createFilledPriroitySelector }; 
