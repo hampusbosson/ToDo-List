@@ -4,12 +4,34 @@ class Todo {
     constructor(title, details, date, priority) {
         this.title = title; 
         this.details = details; 
-        this.date = format(new Date(date), "LLL do"); 
+        this.formatDate = format(new Date(date), "LLL do"); 
+        this.date = date; 
         this.priority = this.capitalize(priority); 
     }
 
     capitalize(str) {
         return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+    }
+
+    changeTitle(newTite) {
+        this.title = newTite;
+        return this;
+    }
+
+    changeDetails(newDetails) {
+        this.details = newDetails;
+        return this;
+    }
+
+    changeDate(newDate) {
+        this.date = newDate;
+        this.formatDate = newDate;
+        return this;
+    }
+
+    changePriority(newPriority) {
+        this.priority = this.capitalize(newPriority);
+        return this;
     }
 }
 
@@ -34,6 +56,7 @@ class TodoList {
     getTodoByTitle(title) {
         return this.todos.find(todo => todo.title === title); 
     }
+
 }
 
 class Project {
