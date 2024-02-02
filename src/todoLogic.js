@@ -41,10 +41,6 @@ class TodoList {
     }
 
     addTodo(todo) {
-        if (!(todo instanceof Todo)) {
-            throw new error("Object mus be an instance of Todo"); 
-        }
-
         const titleExists = this.todos.some(existingTodo => existingTodo.title === todo.title); 
         if (titleExists) {
             throw new error (`A todo with the title "${todo.title}" already exists.`); 
@@ -85,6 +81,21 @@ class Note {
     }
 }
 
+class NotesList {
+    constructor() {
+        this.notes = []; 
+    }
+
+    addNote(note) {
+        const titleExists = this.notes.some(exsistingNote => exsistingNote === note.title);
+        if (titleExists) {
+            throw new error (`A note with the title "${note.title}" already exists.`);
+        }
+
+        this.notes.push(note); 
+    }
+}
 
 
-export { Todo, Project, Note, TodoList }; 
+
+export { Todo, Project, Note, TodoList, NotesList }; 
