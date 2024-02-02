@@ -60,6 +60,7 @@ function renderEditPage(todo, index) {
         createValueInputElement('date', 'edit-date', 'edit-date', `${todo.date}`)
     ); 
 
+
     const priorityBox = document.createElement('div'); 
     priorityBox.classList.add('priority-box');
 
@@ -80,7 +81,7 @@ function renderEditPage(todo, index) {
         dateInput,
         priorityBox
     );
-        console.log(index); 
+
     lowerInputs.append(
         dateAndPriorityBox,
         createButton('button', 'CONFIRM EDIT', 'confirm-edit-button', () => {
