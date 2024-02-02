@@ -1,4 +1,5 @@
 import { createInputElement, hideAllPages, createButton } from "./UIhelper";
+import { addNewNote } from "./notepage";
 
 function renderNotePage() {
     const notePage = document.createElement('div'); 
@@ -18,7 +19,9 @@ function renderNotePage() {
 
     noteContent.append(
         upperContent,
-        createButton('button', 'CREATE NOTE', 'create-note-btn')
+        createButton('button', 'CREATE NOTE', 'create-note-btn', () => {
+            addNewNote(); 
+        })
     ); 
 
     notePage.appendChild(noteContent);     
