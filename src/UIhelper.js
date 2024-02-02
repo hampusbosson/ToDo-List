@@ -32,7 +32,7 @@ function hideAllPages() {
 }
 
 function hideAllHomePages() {
-    const pages = document.querySelectorAll('.home-page'); 
+    const pages = document.querySelectorAll('.main-pages'); 
     pages.forEach(page => {
         page.style.display = 'none';
     });

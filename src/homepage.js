@@ -11,7 +11,7 @@ function renderTodoBox() {
     const todoBox = document.createElement('div');
     todoBox.classList.add('todo-box'); 
 
-    let homepage = document.querySelector('.home-page');
+    let homepage = document.querySelector('#homepage-container');
 
     // If homepage is in view, append only the latest todo
     if (homepage && todoList.todos.length > 0) { 
@@ -98,7 +98,6 @@ function editTodoAndDetails(index) {
     const editContent = document.getElementById('edit-c' + index);
     const newTitle = editContent.querySelector('#edit-title-input').value; 
     let newDate = editContent.querySelector('#edit-date').value.trim(); 
-    newDate = format(new Date(newDate), "LLL do"); 
     const newDetails = editContent.querySelector('#edit-details-input').value; 
     const priority = editContent.querySelector('.selected'); 
     const newPriority = priority.textContent; 
@@ -120,8 +119,10 @@ function editTodoAndDetails(index) {
     }
     
     if (dateElement) {
+        newDate = format(new Date(newDate), "LLL do");
         dateElement.textContent = newDate; 
     }
+
     
 }
 
@@ -137,7 +138,7 @@ function deleteTodoElement(index) {
 
 function renderHomePage() {
     const homepage = document.createElement('div'); 
-    homepage.classList.add('home-page'); 
+    homepage.classList.add('main-pages'); 
     homepage.id = 'homepage-container'; 
 
     const homepageContent = document.createElement('div'); 
@@ -203,7 +204,7 @@ function getSelectedPriority() {
 
 function showHomePage() {
     hideAllHomePages(); 
-    let homepage = document.querySelector('.home-page');
+    let homepage = document.querySelector('#homepage-container');
     if (!homepage) {
         renderHomePage(); 
     } else {
