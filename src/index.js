@@ -4,6 +4,7 @@ import { showHomePage } from './homepage';
 import { createButton } from './UIhelper';
 import { showDetailsModal } from './detailsModal';
 import { showEditModal } from './editModal.js';
+import { showNotePage } from './notepage.js';
 
 function createSidebar(){
     const sidebar = document.createElement('div'); 
@@ -16,7 +17,7 @@ function createSidebar(){
         createButton('li', '📚 This week', 'homeButton'),
         createButton('li', '📆 Upcoming', 'homeButton'),
         createButton('li', '📗 Logbook', 'homeButton'),
-        createButton('li', '📖 Notes', 'homeButton')
+        createButton('li', '📖 Notes', 'homeButton', () => showNotePage())
     );
 
     const createNew = createButton('li', '+', 'homeButton', () => showModal()); 
