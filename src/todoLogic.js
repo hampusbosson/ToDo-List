@@ -43,7 +43,7 @@ class TodoList {
     addTodo(todo) {
         const titleExists = this.todos.some(existingTodo => existingTodo.title === todo.title); 
         if (titleExists) {
-            throw new error (`A todo with the title "${todo.title}" already exists.`); 
+            alert (`A todo with the title "${todo.title}" already exists.`); 
         }
 
         this.todos.push(todo); 
@@ -74,6 +74,21 @@ class Project {
     }
 }
 
+class ProjectList {
+    constructor() {
+        this.projects = []; 
+    }
+
+    addProject(project) {
+        const titleExists = this.projects.some(exsistingProject => exsistingProject === project.title); 
+        if (titleExists) {
+            throw new error (`A project with the title "${project.title}" already exists`);
+        }
+
+        this.projects.push(project); 
+    }
+}
+
 class Note {
     constructor(title, details) {
         this.title = title; 
@@ -98,4 +113,4 @@ class NotesList {
 
 
 
-export { Todo, Project, Note, TodoList, NotesList }; 
+export { Todo, Project, Note, TodoList, NotesList, ProjectList }; 
