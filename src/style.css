@@ -463,7 +463,9 @@ li:hover {
 .details-close-button:hover,
 .details-close-button:focus,
 .edit-close-button:hover,
-.edit-close-button:focus {
+.edit-close-button:focus,
+.note-delete-button:hover,
+.note-delete-button:focus {
     color: rgba(0, 0, 0, 0.586);
     text-decoration: none;
     cursor: pointer;
@@ -521,21 +523,37 @@ li:hover {
     opacity: 0.5; /* Reduces the opacity */
 }
 
+.notes-container {
+    -webkit-column-count: 3; /* Chrome, Safari, Opera */
+    -moz-column-count: 3;    /* Firefox */
+    column-count: 3;         /* Standard syntax */
+
+    -webkit-column-gap: 1em; /* Chrome, Safari, Opera */
+    -moz-column-gap: 1em;    /* Firefox */
+    column-gap: 1em;         /* Standard syntax */
+
+    width: 100%; /* Adjust the width as necessary */
+}
+
 .note-box {
-    display: flex;
-    height: min-content;
+    display: inline-block;
+    width: 100%;
+    min-width: 15rem;
+    margin-bottom: 1em; /* This sets the vertical gap between items */
+    break-inside: avoid-column;
 }
 
 .note-element {
     position: relative;
     display: inline-block;
     background-color: #f2f5f7;
-    width: 30%;
-    padding-left: 1.5rem;
+    width: 100%;
     padding-top: 0.5rem; 
     padding-bottom: 1.5rem;
     border: 1px solid rgba(0, 0, 0, 0.165);
+    border-radius: 5px;
     overflow-wrap: break-word;
+    
 }
 
 .note-element textarea {
@@ -544,8 +562,7 @@ li:hover {
     box-sizing: border-box;
     border: none; /* Assuming you don't want a border inside .note-element */
     overflow-y: hidden; /* Hide scrollbar, but won't make it grow */
-    padding: 0; 
-    min-height: 0;
+    padding-left: 1.5rem; 
 }
 
 .note-element textarea:focus {
@@ -560,11 +577,12 @@ li:hover {
 .note-delete-btn-container {
     display: flex;
     justify-content: flex-end;
+    margin: 0;
+    padding: 0;
 }
 
 .note-delete-button {
-    width: min-content;
-    font-size: 1.3rem;
+    font-size: 1.5rem;
     padding-right: 0.8rem;
 }
 
@@ -574,7 +592,7 @@ li:hover {
 }
 
 #note-title {
-    margin-top: -0.5rem;
+    margin-top: -0.3rem;
     font-size: 1.7rem;
     font-family: 'lato-regular';
     height: 35px;
@@ -583,7 +601,6 @@ li:hover {
 #note-details {
     font-family: 'lato';
     font-size: 1.2rem;
-    height: 25px; 
 }
 
 

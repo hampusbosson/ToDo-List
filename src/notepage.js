@@ -84,6 +84,10 @@ function createNoteElement(note, index) {
     deleteButton.id = 'note-delete' + index; 
     deleteButton.innerHTML = '&times;';
 
+    deleteButton.addEventListener('click', () => {
+        deleteNoteBox('note' + index);
+    })
+
     deletebuttonContainer.appendChild(deleteButton);
 
     const noteTitle = createValueTextarea('note-title', 'note-title', `${note.title}`, 'note-titles');
@@ -95,6 +99,16 @@ function createNoteElement(note, index) {
     return noteElement; 
 }
 
+function deleteNoteBox(index) {
+    const noteBox = document.getElementById(index);
+    const parent = noteBox.parentElement;
+
+    // Remove the parent element from its own parent
+    if (parent && parent.parentElement) {
+        parent.parentElement.removeChild(parent);
+    }
+}
+
 
 function updateNoteBox() {
     const notepageContainer = document.querySelector('.notes-container');
@@ -102,7 +116,7 @@ function updateNoteBox() {
     if (notepageContainer) {
         // Create a new noteBox and append it to the notepage
         const newNoteBox = renderNoteBox();
-        notepageContainer.appendChild(newNoteBox);
+        notepageContainer.prepend(newNoteBox);
     }
 }
 
