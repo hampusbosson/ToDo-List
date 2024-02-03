@@ -13,8 +13,8 @@ function renderNotePage() {
     upperContent.classList.add('note-upper');
 
     upperContent.append(
-        createInputElement('text', 'note-title', 'note-title', 'Title: Study session monday', 'input'),
-        createInputElement('text', 'note-details', 'note-details', 'Details: Study session details...', 'input')
+        createInputElement('text', 'modal-note-title', 'note-title', 'Title: Study session monday', 'input'),
+        createInputElement('text', 'modal-note-details', 'note-details', 'Details: Study session details...', 'input')
     );
 
     noteContent.append(
@@ -31,6 +31,8 @@ function renderNotePage() {
 
     notePage.style.display = 'block'; 
 }
+
+
 
 
 function showNotePage() {

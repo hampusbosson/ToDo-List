@@ -1,6 +1,7 @@
 import { hideAllHomePages } from "./UIhelper";
 import { Note, NotesList } from "./todoLogic";
 import { closeModal } from "./modal";
+import { createValueTextarea } from "./UIhelper";
 
 const notesList = new NotesList(); 
 
@@ -31,14 +32,15 @@ function renderNotePage() {
 
 function addNewNote() {
     event.preventDefault();
-    const title = document.getElementById('note-title').value;
-    const details = document.getElementById('note-details').value;
+
+    const title = document.getElementById('modal-note-title').value;
+    const details = document.getElementById('modal-note-details').value;
 
     const newNote = new Note(title, details); 
     notesList.addNote(newNote); 
 
-    document.getElementById('note-title').value = '';
-    document.getElementById('note-details').value = ''; 
+    document.getElementById('modal-note-title').value = '';
+    document.getElementById('modal-note-details').value = ''; 
 
     updateNoteBox();
     
@@ -51,10 +53,8 @@ function renderNoteBox() {
 
     let notesPage = document.querySelector('#notepage-container'); 
 
-    const noteElement = createNoteElement(); 
-    noteBox.appendChild(noteElement);
     // If homepage is in view, append only the latest note
-    /*
+    
     if (notesPage && notesList.notes.length > 0) { 
         const index = notesList.notes.length - 1;
         const latestNote = notesList.notes[notesList.notes.length - 1];
@@ -67,7 +67,7 @@ function renderNoteBox() {
             noteBox.appendChild(noteElement);
         });
     }
-    */
+    
     return noteBox; 
 }
 
@@ -76,20 +76,21 @@ function createNoteElement(note, index) {
     noteElement.classList.add('note-element'); 
     noteElement.id = 'note' + index; 
 
+    const deletebuttonContainer = document.createElement('div'); 
+    deletebuttonContainer.classList.add('note-delete-btn-container');
+
     const deleteButton = document.createElement('span'); 
     deleteButton.classList.add('note-delete-button'); 
     deleteButton.id = 'note-delete' + index; 
     deleteButton.innerHTML = '&times;';
 
-    const noteTitle = document.createElement('div'); 
-    noteTitle.classList.add('note-title');
-    noteTitle.textContent = 'Hello world'; 
+    deletebuttonContainer.appendChild(deleteButton);
 
-    const noteDetails = document.createElement('div'); 
-    noteDetails.classList.add('note-details'); 
-    noteDetails.textContent = 'hello poopie piipie'; 
+    const noteTitle = createValueTextarea('note-title', 'note-title', `${note.title}`, 'note-titles');
 
-    noteElement.append(deleteButton, noteTitle, noteDetails); 
+    const noteDetails = createValueTextarea('note-details', 'note-details', `${note.details}`, 'note-details');
+
+    noteElement.append(deletebuttonContainer, noteTitle, noteDetails); 
 
     return noteElement; 
 }
