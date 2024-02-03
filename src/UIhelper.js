@@ -28,25 +28,31 @@ function createValueTextarea(id, name, value, classList) {
     const textarea = document.createElement('textarea');
     textarea.id = id;
     textarea.name = name;
-    textarea.classList.add(classList); // Use spread syntax for multiple classes
+    textarea.classList.add(classList);
     textarea.wrap = "hard";
 
+    // Function to adjust textarea height
+    function adjustHeight() {
+        // Ensure element is in the DOM and visible to calculate scrollHeight
+        if (textarea.scrollHeight > 0) {
+            textarea.style.height = '1px'; // Reset height to recalculate
+            textarea.style.height = textarea.scrollHeight + 'px'; // Adjust to content
+        }
+    }
+
+    // Initial value set and adjust height
     if (value) {
         textarea.value = value;
     }
 
+    // Adjust height after appending to DOM to ensure accurate scrollHeight calculation
+    setTimeout(adjustHeight, 0);
 
-    // Event listener to grow the textarea without scrollbar
-    textarea.addEventListener('input', function() {
-        this.style.height = '1px'; // Reset height
-        this.style.height = this.scrollHeight + 'px'; // Set new height based on content
-    });
-
-
+    // Add event listener for input to dynamically adjust height
+    textarea.addEventListener('input', adjustHeight);
 
     return textarea;
 }
-
 
 
 function hideAllPages() {
