@@ -65,7 +65,7 @@ class Project {
         if (todo instanceof Todo) {
             this.todos.push(todo); 
         } else {
-            throw new error("Object must be of instance Todo"); 
+            alert ("Object must be of instance Todo"); 
         }
     }
 
@@ -80,9 +80,9 @@ class ProjectList {
     }
 
     addProject(project) {
-        const titleExists = this.projects.some(exsistingProject => exsistingProject === project.title); 
+        const titleExists = this.projects.some(exsistingProject => exsistingProject.title === project.title); 
         if (titleExists) {
-            throw new error (`A project with the title "${project.title}" already exists`);
+            alert (`A project with the title "${project.title}" already exists`);
         }
 
         this.projects.push(project); 
