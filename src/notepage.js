@@ -27,7 +27,7 @@ function renderNotePage() {
     const body = document.querySelector('.body');
     body.appendChild(notepage); 
     
-    notepage.style.display = 'block'; 
+    notepage.style.display = 'none'; 
 }
 
 function addNewNote() {

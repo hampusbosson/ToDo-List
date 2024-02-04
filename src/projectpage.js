@@ -1,5 +1,8 @@
 import { hideAllHomePages } from "./UIhelper";
 import { Project, ProjectList } from "./todoLogic";
+import { closeModal } from "./modal";
+
+const projectList = new ProjectList(); 
 
 function renderProjectPage() {
     const projectpage = document.createElement('div'); 
@@ -20,8 +23,48 @@ function renderProjectPage() {
     const body = document.querySelector('.body'); 
     body.appendChild(projectpage);
 
-    projectpage.style.display = 'block'; 
+    projectpage.style.display = 'none'; 
 }
+
+function renderProjectBox() {
+    const projectBox = document.createElement('div');
+    projectBox.classList.add('project-box'); 
+
+    let projectPage = document.querySelector('#projectpage-container');
+
+    // If projectpage is in view, append only the latest project
+    if (projectPage && projectList.projects.length > 0) { 
+        const index = projectList.projects.length - 1;
+        const latestProject = projectList.projects[projectList.projects.length - 1];
+        const projectElement = createProjectElement(latestProject, index);
+        projectBox.appendChild(projectElement);
+    } else {
+        // If projectpage is not in view, append the entire list
+        projectList.projects.forEach((project, index) => {
+            const projectElement = createPeojectElement(project, index);
+            projectBox.appendChild(projectElement);
+        });
+    }
+    
+    return projectBox; 
+}
+
+function createProjectElement(project, index) {
+    const projectElement = document.createElement('div');
+    projectElement.classList.add('project-element');
+    projectElement.id = 'project' + index; 
+
+
+    const projectTitle = document.createElement('div');
+    projectTitle.textContent = project.title; 
+    projectTitle.classList.add('project-title');
+
+    projectElement.appendChild(projectTitle)
+
+
+    return projectElement;
+}
+
 
 function addNewProject() {
     event.preventDefault();
@@ -29,23 +72,25 @@ function addNewProject() {
     // Get value from input field
     const title = document.getElementById('project-title').value;
 
-    const newProject = new Todo(title, details, date, priority);
-    todoList.addTodo(newTodo);
+    const newProject = new Project(title);
+    projectList.addProject(newProject); 
 
-    document.getElementById('title-input').value = '';
-    document.getElementById('details-input').value = '';
-    document.getElementById('date').value = '';
-
-    document.querySelectorAll('.priority-button').forEach(btn => {
-        btn.classList.remove('selected');
-        btn.style.backgroundColor = '';
-        btn.style.color = btn.dataset.priorityColor; 
-    });
+    document.getElementById('project-title').value = '';
 
     // Update the homepage to display the new todo
-    updateTodoBox(); 
+    updateProjectBox(); 
     //close modal after adding
     closeModal(); 
+}
+
+function updateProjectBox() {
+    const projectContent = document.querySelector('.projectpage-content');
+    
+    if (projectContent) {
+        // Create a new todoBox and append it to the homepage
+        const newProjectBox = renderProjectBox();
+        projectContent.appendChild(newProjectBox);
+    }
 }
 
 function showProjectPage() {
@@ -58,4 +103,4 @@ function showProjectPage() {
     }
 }
 
-export { showProjectPage };
+export { showProjectPage, addNewProject, renderProjectPage };
