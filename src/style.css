@@ -336,12 +336,12 @@ li:hover {
     height: 100%;
 }
 
-.home-page, .homepage-content, .notepage.content {
+.home-page, .homepage-content, .notepage.content, .projectpage-content {
     max-width: 100%;
     max-height: 100%;
 }
 
-.homepage-content, .notepage-content {
+.homepage-content, .notepage-content, .projectpage-content {
     margin-left: 15rem;
     margin-right: 15rem;
     margin-top: 6rem;
@@ -350,7 +350,7 @@ li:hover {
     gap: 1rem; 
 }
 
-.page-title, .note-page-title {
+.page-title, .note-page-title, .projectpage-title {
     font-family: 'lato-bold';
     font-size: 2rem;
 }
@@ -571,7 +571,7 @@ li:hover {
 
 .note-element:hover {
     box-shadow: 3px 3px 7px rgb(144, 144, 144);
-    transform: scale(1.003);
+    transform: scale(1.005);
 }
 
 .note-delete-btn-container {
@@ -602,6 +602,57 @@ li:hover {
     font-family: 'lato';
     font-size: 1.2rem;
 }
+
+.projects-container {
+    display: flex;
+}
+
+.project-box {
+    width: 45%;
+    height: 13rem;
+    border-radius: 10px;
+    transition: transform 0.2s ease; /* Smooth transition for scaling */
+    cursor: pointer;
+}
+
+.project-element {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative; /* Needed for the pseudo-element positioning */
+}
+
+.project-element::before {
+    border-radius: 10px;
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('/src/images/project.image.jpeg');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.5;
+    z-index: -1;
+    box-shadow: 5px 5px 5px rgb(0, 0, 0);
+}
+
+.project-box:hover {
+    transform: scale(1.03);
+}
+
+
+.project-title {
+    font-family: 'lato-regular';
+    font-size: 2.5rem;
+    color: black;
+}
+
+
+
 
 
 
