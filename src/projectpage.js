@@ -1,6 +1,7 @@
 import { hideAllHomePages } from "./UIhelper";
 import { Project, ProjectList } from "./todoLogic";
 import { closeModal } from "./modal";
+import { renderProject } from "./individualProjectPage";
 
 const projectList = new ProjectList(); 
 
@@ -16,9 +17,12 @@ function renderProjectPage() {
     projectpageTitle.classList.add('projectpage-title'); 
     projectpageTitle.textContent = '📗 Projects';
 
-    projectpageContent.appendChild(projectpageTitle);
-    
-    projectpage.appendChild(projectpageContent);
+    const projectsContainer = document.createElement('div'); 
+    projectsContainer.classList.add('projects-container'); 
+
+    projectpageContent.append(projectpageTitle, projectsContainer);
+
+    projectpage.append(projectpageContent);
 
     const body = document.querySelector('.body'); 
     body.appendChild(projectpage);
@@ -32,6 +36,7 @@ function renderProjectBox() {
 
     let projectPage = document.querySelector('#projectpage-container');
 
+    
     // If projectpage is in view, append only the latest project
     if (projectPage && projectList.projects.length > 0) { 
         const index = projectList.projects.length - 1;
@@ -41,10 +46,12 @@ function renderProjectBox() {
     } else {
         // If projectpage is not in view, append the entire list
         projectList.projects.forEach((project, index) => {
-            const projectElement = createPeojectElement(project, index);
+            const projectElement = createProjectElement(project, index);
             projectBox.appendChild(projectElement);
         });
     }
+
+    
     
     return projectBox; 
 }
@@ -61,6 +68,9 @@ function createProjectElement(project, index) {
 
     projectElement.appendChild(projectTitle)
 
+    projectElement.addEventListener('click', () => {
+        renderProject(project); 
+    })
 
     return projectElement;
 }
@@ -84,13 +94,14 @@ function addNewProject() {
 }
 
 function updateProjectBox() {
-    const projectContent = document.querySelector('.projectpage-content');
+    const projectContent = document.querySelector('.projects-container');
     
     if (projectContent) {
         // Create a new todoBox and append it to the homepage
         const newProjectBox = renderProjectBox();
         projectContent.appendChild(newProjectBox);
     }
+
 }
 
 function showProjectPage() {
@@ -103,4 +114,5 @@ function showProjectPage() {
     }
 }
 
-export { showProjectPage, addNewProject, renderProjectPage };
+
+export { showProjectPage, addNewProject };
