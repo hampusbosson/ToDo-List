@@ -45,4 +45,4 @@ function showNotePage() {
     }
 }
 
-export default showNotePage; 
+export { showNotePage, renderNotePage }

@@ -4,6 +4,7 @@ import { showHomePage } from './homepage';
 import { createButton } from './UIhelper';
 import { showNotePage } from './notepage.js';
 import { showProjectPage } from './projectpage.js';
+import { renderProject } from './individualProjectPage.js';
 
 function createSidebar(){
     const sidebar = document.createElement('div'); 
@@ -34,3 +35,4 @@ content.append(createSidebar(), body);
 showProjectPage(); 
 showNotePage(); 
 showHomePage();
+

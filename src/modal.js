@@ -1,6 +1,6 @@
 import { showToDoPage } from "./todoUI";
 import showProjectPage from "./projectUI";
-import showNotePage from "./noteUI";
+import { showNotePage } from "./noteUI";
 import { createButton } from "./UIhelper";
 
 function createModalHeader(modal) {
