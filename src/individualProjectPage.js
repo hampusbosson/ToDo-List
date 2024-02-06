@@ -4,10 +4,10 @@ import { hideAllHomePages } from "./UIhelper";
 
 const projectList = new ProjectList(); 
 
-function renderProject(project) {
+function renderProject(project, index) {
     const individualProjectPage = document.createElement('div'); 
     individualProjectPage.classList.add('main-pages');
-    individualProjectPage.id = 'individual-project-page'; 
+    individualProjectPage.id = 'individual-project-page' + index; 
 
     const content = document.createElement('div'); 
     content.classList.add('i-project-content');
@@ -67,15 +67,12 @@ function renderAddTodo() {
     return addTodoBox;
 }
 
-function addTaskToPage() {
-    
-}
 
-function showIdividualProjectPage(project) {
+function showIdividualProjectPage(project, index) {
     hideAllHomePages(); 
-    let homepage = document.querySelector('#individual-homepage');
+    let homepage = document.querySelector('#individual-project-page' + index);
     if (!homepage) {
-        renderProject(project); 
+        renderProject(project, index); 
     } else {
         homepage.style.display = 'block';
     }
