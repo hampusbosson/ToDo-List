@@ -1,7 +1,7 @@
 import { hideAllHomePages } from "./UIhelper";
 import { Project, ProjectList } from "./todoLogic";
 import { closeModal } from "./modal";
-import { renderProject } from "./individualProjectPage";
+import { showIdividualProjectPage } from "./individualProjectPage";
 
 const projectList = new ProjectList(); 
 
@@ -69,7 +69,7 @@ function createProjectElement(project, index) {
     projectElement.appendChild(projectTitle)
 
     projectElement.addEventListener('click', () => {
-        renderProject(project); 
+        showIdividualProjectPage(project); 
     })
 
     return projectElement;
