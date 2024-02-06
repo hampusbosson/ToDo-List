@@ -1,9 +1,10 @@
 import { createButton, hideAllHomePages, createIconButton } from "./UIhelper";
-import { Todo, TodoList } from "./todoLogic";
+import { Todo, TodoList, ProjectList } from "./todoLogic";
 import { closeModal } from "./modal";
 import { showDetailsModal } from "./detailsModal";
 import { showEditModal } from "./editModal";
 import { format } from "date-fns";
+import { getProjectList } from "./projectpage";
 
 const todoList = new TodoList(); 
 
@@ -34,7 +35,8 @@ function renderTodoBox() {
 function createTodoElement(todo, index) {
     const todoElement = document.createElement('div');
     todoElement.classList.add('todo-element');
-    todoElement.id = index; 
+    todoElement.setAttribute('data-index', index); 
+
     const checkboxWrapper = document.createElement('div');
     checkboxWrapper.classList.add('checkbox-wrapper-19');
     
@@ -65,7 +67,7 @@ function createTodoElement(todo, index) {
     }); 
 
     const deleteButton = createIconButton('button', 'delete-button', () => {
-        deleteTodoElement(index); 
+        deleteTodoElements(index);
     }); 
 
     const leftItems = document.createElement('div'); 
@@ -126,14 +128,17 @@ function editTodoAndDetails(index) {
     
 }
 
-function deleteTodoElement(index) {
-    const todoElement = document.getElementById(index);
-    const parent = todoElement.parentElement;
+function deleteTodoElements(index) {
+    // Select all elements with the class 'todo-item' that have the matching 'data-index'
+    const todoElements = document.querySelectorAll(`.todo-element[data-index="${index}"]`);
 
-    // Remove the parent element from its own parent
-    if (parent && parent.parentElement) {
-        parent.parentElement.removeChild(parent);
-    }
+    // Loop through the NodeList and remove each element from its parent
+    todoElements.forEach(todoElement => {
+        const parent = todoElement.parentElement;
+        if (parent) {
+            parent.removeChild(todoElement);
+        }
+    });
 }
 
 function renderHomePage() {
@@ -168,14 +173,16 @@ function addNewTodo() {
     let title = document.getElementById('title-input').value;
     let details = document.getElementById('details-input').value;
     let date = document.getElementById('date').value;
+    let project = 'Home'; 
     if (individualProjectPage) {
         date = document.getElementById('task-date').value; 
         title = document.getElementById('task-title-input').value; 
         details = document.getElementById('task-details-input').value;
+        project = document.querySelector('.project-title-name').textContent;
     } 
     const priority = getSelectedPriority(); 
 
-    const newTodo = new Todo(title, details, date, priority);
+    const newTodo = new Todo(title, details, date, priority, project);
     todoList.addTodo(newTodo);
 
     document.getElementById('title-input').value = '';
@@ -188,6 +195,12 @@ function addNewTodo() {
         btn.style.color = btn.dataset.priorityColor; 
     });
 
+    if (individualProjectPage) {
+        let projectList = getProjectList(); 
+        let index = projectList.getIndexOfTitle(project); 
+
+        updateTodoBoxInProject(index); 
+    }
     // Update the homepage to display the new todo
     updateTodoBox(); 
     //close modal after adding
@@ -202,6 +215,17 @@ function updateTodoBox() {
         // Create a new todoBox and append it to the homepage
         const newTodoBox = renderTodoBox();
         homepageContent.appendChild(newTodoBox);
+    }
+}
+
+function updateTodoBoxInProject(index) {
+    const projectContent = document.querySelector('#individual-project-page' + index);
+    const grandchild = projectContent.querySelector('.i-project-content .i-project-container');
+
+    if (projectContent) {
+        // Create a new todoBox and append it to the homepage
+        const newTodoBox = renderTodoBox();
+        grandchild.prepend(newTodoBox);
     }
 }
 
