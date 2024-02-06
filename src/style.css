@@ -78,7 +78,7 @@ li:hover {
     font-size: 4rem;
 }
 
-.modal, .details-modal, .edit-modal {
+.modal, .details-modal, .edit-modal, .add-task-modal {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
     z-index: 1; /* Sit on top */
@@ -106,7 +106,7 @@ li:hover {
     color: white;
 }
 
-.modal-content {
+.modal-content, .task-content {
     display: flex;
     flex-direction: row;
     height: 83.1%; 
@@ -145,7 +145,7 @@ li:hover {
     min-width: 40rem; 
 }
 
-.edit-modal-container {
+.edit-modal-container, .task-modal-container {
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -158,6 +158,8 @@ li:hover {
     min-width: 30rem; 
     border-radius: 10px;
 }
+
+
 
 /* The Close Button */
 .close {
@@ -183,32 +185,42 @@ li:hover {
     width: 92%;
 }
 
-.todo-content, .edit-content {
+.todo-content, .edit-content, .task-content {
     height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
 
-.edit-content {
+.edit-content, .task-content {
     height: 90%;
     padding-left: 2rem; 
     padding-bottom: 1.6rem;
     width: 92%;
 }
 
-.edit-page {
+.edit-page, #add-task-page {
     height: 100%;
     margin-right: 0.8rem; 
 }
 
-.upper-todo-inputs, .note-upper {
+
+
+.upper-todo-inputs, .note-upper, .upper-task-inputs {
     display: flex;
     flex-direction: column;
     gap: 1rem;
 }
 
-#title-input, #details-input, #project-title, #modal-note-title, #modal-note-details, #edit-title-input, #edit-details-input {
+#title-input,
+#details-input,
+#project-title, 
+#modal-note-title, 
+#modal-note-details, 
+#edit-title-input, 
+#edit-details-input,
+#task-title-input,
+#task-details-input {
     border: none; 
     outline: none;
     background-color: transparent;
@@ -220,17 +232,24 @@ li:hover {
     background-color: transparent;
 }
 
-#title-input, #project-title, #modal-note-title, #edit-title-input {
+#title-input, 
+#project-title, 
+#modal-note-title, 
+#edit-title-input,
+#task-title-input {
     font-size: 1.2rem;
 }
 
-#details-input, #modal-note-details, #edit-details-input {
+#details-input, 
+#modal-note-details, 
+#edit-details-input,
+#task-details-input {
     font-size: 1rem;
     width: 100%; 
 }
 
 
-.lower-todo-inputs {
+.lower-todo-inputs, .lower-task-inputs {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -257,7 +276,7 @@ li:hover {
     font-family: 'lato-regular';
 }
 
-#date, #edit-date {
+#date, #edit-date, #task-date {
     border: 1px solid lightgray; 
     border-radius: 5px;
     width: 6.6rem;
@@ -283,7 +302,7 @@ li:hover {
     cursor: pointer;
 }
 
-.add-todo {
+.add-todo, .add-task-button {
     font-size: 0.8rem;
     height: 1.9rem;
     width: 6.5rem;
@@ -305,7 +324,12 @@ li:hover {
     font-family: 'lato-bold';
 }
 
-.add-todo:hover, .create-project-btn:hover, .create-note-btn:hover, .details-button:hover, .confirm-edit-button:hover {
+.add-todo:hover,
+.create-project-btn:hover,
+.create-note-btn:hover,
+.details-button:hover,
+.confirm-edit-button:hover,
+.add-task-button:hover {
     cursor: pointer;
     border: 1px solid #5c9cf5;  
     background-color: #5c9cf5;
