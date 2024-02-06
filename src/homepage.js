@@ -162,10 +162,17 @@ function renderHomePage() {
 function addNewTodo() {
     event.preventDefault();
 
+    const individualProjectPage = document.querySelector('#add-task-page'); 
+
     // Get values from input fields
-    const title = document.getElementById('title-input').value;
-    const details = document.getElementById('details-input').value;
-    const date = document.getElementById('date').value;
+    let title = document.getElementById('title-input').value;
+    let details = document.getElementById('details-input').value;
+    let date = document.getElementById('date').value;
+    if (individualProjectPage) {
+        date = document.getElementById('task-date').value; 
+        title = document.getElementById('task-title-input').value; 
+        details = document.getElementById('task-details-input').value;
+    } 
     const priority = getSelectedPriority(); 
 
     const newTodo = new Todo(title, details, date, priority);
@@ -189,6 +196,7 @@ function addNewTodo() {
 
 function updateTodoBox() {
     const homepageContent = document.querySelector('.homepage-content');
+    
     
     if (homepageContent) {
         // Create a new todoBox and append it to the homepage
