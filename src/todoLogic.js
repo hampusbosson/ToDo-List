@@ -1,12 +1,13 @@
 import { format } from "date-fns";
 
 class Todo {
-    constructor(title, details, date, priority) {
+    constructor(title, details, date, priority, project) {
         this.title = title; 
         this.details = details; 
         this.formatDate = format(new Date(date), "LLL do"); 
         this.date = date; 
         this.priority = this.capitalize(priority); 
+        this.project = project; 
     }
 
     capitalize(str) {
@@ -44,6 +45,7 @@ class TodoList {
         const titleExists = this.todos.some(existingTodo => existingTodo.title === todo.title); 
         if (titleExists) {
             alert (`A todo with the title "${todo.title}" already exists.`); 
+            return; 
         }
 
         this.todos.push(todo); 
@@ -66,6 +68,7 @@ class Project {
             this.todos.push(todo); 
         } else {
             alert ("Object must be of instance Todo"); 
+            return; 
         }
     }
 
@@ -83,9 +86,23 @@ class ProjectList {
         const titleExists = this.projects.some(exsistingProject => exsistingProject.title === project.title); 
         if (titleExists) {
             alert (`A project with the title "${project.title}" already exists`);
+            return; 
         }
 
         this.projects.push(project); 
+    }
+
+    getProjectByTitle(projectTitle) {
+        const project = this.projects.find(p => p.title === projectTitle);
+
+        return project || null; 
+    }
+
+    getIndexOfTitle(projectTitle) {
+        // Find the index of the project in the projects array that matches the projectTitle
+        const index = this.projects.findIndex(p => p.title === projectTitle);
+        // Return the index of found project or -1 if not found
+        return index;
     }
 }
 
@@ -104,7 +121,8 @@ class NotesList {
     addNote(note) {
         const titleExists = this.notes.some(exsistingNote => exsistingNote === note.title);
         if (titleExists) {
-            throw new error (`A note with the title "${note.title}" already exists.`);
+            alert (`A note with the title "${note.title}" already exists.`);
+            return; 
         }
 
         this.notes.push(note); 
