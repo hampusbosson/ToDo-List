@@ -1,7 +1,7 @@
 import { createInputElement, hideAllPages, createButton } from "./UIhelper";
 import { addNewTodo } from "./homepage";
 
-function createPriroitySelector() {
+function createPrioritySelector() {
     const prioritySelector = document.createElement('div'); 
     prioritySelector.id = 'priority-selector'; 
 
@@ -106,7 +106,7 @@ function renderToDoPage() {
     const priorityBox = document.createElement('div'); 
     priorityBox.classList.add('priority-box');
 
-    const prioritySelector = createPriroitySelector(); 
+    const prioritySelector = createPrioritySelector(); 
     const priorityLabel = document.createElement('label'); 
     priorityLabel.textContent = 'Priority: '; 
 
@@ -150,4 +150,4 @@ function showToDoPage() {
     }
 }
 
-export { showToDoPage, createFilledPriroitySelector }; 
+export { showToDoPage, createFilledPriroitySelector, createPrioritySelector }; 
