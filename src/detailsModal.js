@@ -50,7 +50,7 @@ function renderTodoDetails(todo) {
     details.textContent = 'Details:';
 
     const todoProject = document.createElement('div');
-    todoProject.textContent = 'home';
+    todoProject.textContent = `${todo.project}`;
     const todoPriority = document.createElement('div');
     todoPriority.textContent = `${todo.priority}`;
     const todoDate = document.createElement('div');
