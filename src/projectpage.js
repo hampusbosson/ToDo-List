@@ -69,7 +69,7 @@ function createProjectElement(project, index) {
     projectElement.appendChild(projectTitle)
 
     projectElement.addEventListener('click', () => {
-        showIdividualProjectPage(project); 
+        showIdividualProjectPage(project, index); 
     })
 
     return projectElement;
@@ -114,5 +114,9 @@ function showProjectPage() {
     }
 }
 
+function getProjectList() {
+    return projectList; 
+}
 
-export { showProjectPage, addNewProject };
+
+export { showProjectPage, addNewProject, getProjectList };
