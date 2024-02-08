@@ -41,6 +41,11 @@ class TodoList {
         this.todos = []; 
     }
 
+    doesTitleExist(todo) {
+        // Returns true if the title exists, false otherwise
+        return this.todos.some(existingTodo => existingTodo.title === todo.title);
+    }
+
     addTodo(todo) {
         const titleExists = this.todos.some(existingTodo => existingTodo.title === todo.title); 
         if (titleExists) {
@@ -80,6 +85,11 @@ class Project {
 class ProjectList {
     constructor() {
         this.projects = []; 
+    }
+
+    doesTitleExist(project) {
+        // Returns true if the title exists, false otherwise
+        return this.projects.some(existingProject => existingProject.title === project.title);
     }
 
     addProject(project) {
