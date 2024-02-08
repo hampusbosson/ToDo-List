@@ -83,7 +83,13 @@ function addNewProject() {
     const title = document.getElementById('project-title').value;
 
     const newProject = new Project(title);
-    projectList.addProject(newProject); 
+    if (!projectList.doesTitleExist(newProject)) {
+        projectList.addProject(newProject);
+    } else {
+        // Handle the case where the title already exists
+        alert (`A project with the title "${newProject.title}" already exists.`);
+        return;
+    }
 
     document.getElementById('project-title').value = '';
 

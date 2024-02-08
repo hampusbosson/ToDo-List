@@ -2,8 +2,6 @@ import { ProjectList } from "./todoLogic";
 import { showAddTaskModal } from "./addTaskModal";
 import { hideAllHomePages } from "./UIhelper";
 
-const projectList = new ProjectList(); 
-
 function renderProject(project, index) {
     const individualProjectPage = document.createElement('div'); 
     individualProjectPage.classList.add('main-pages');
@@ -14,8 +12,11 @@ function renderProject(project, index) {
 
     const projectContainer = document.createElement('div');
     projectContainer.classList.add('i-project-container');
+
+    const todoContent = document.createElement('div'); 
+    todoContent.classList.add('project-todo-content')
     
-    projectContainer.appendChild(renderAddTodo()); 
+    projectContainer.append(todoContent, renderAddTodo()); 
 
     const titleText = document.createElement('div')
     titleText.classList.add('i-project-title'); 
@@ -66,7 +67,6 @@ function renderAddTodo() {
 
     return addTodoBox;
 }
-
 
 function showIdividualProjectPage(project, index) {
     hideAllHomePages(); 
