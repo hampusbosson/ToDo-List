@@ -114,6 +114,17 @@ class ProjectList {
         // Return the index of found project or -1 if not found
         return index;
     }
+    
+    getTitleOfIndex(index) {
+        // Check if the index is within the bounds of the projects array
+        if (index >= 0 && index < this.projects.length) {
+            // Return the title of the project at the given index
+            return this.projects[index].title;
+        } else {
+            // Return null or some indication that the index is invalid
+            return null;
+        }
+    }
 }
 
 class Note {
