@@ -12,10 +12,9 @@ function createSidebar(){
     
     const sidebarOptions = document.createElement('ul'); 
     sidebarOptions.append(
-        createButton('li', '🏠 Home', 'homeButton', () => showHomePage()),
+        createButton('li', '🏠 All Tasks', 'homeButton', () => showHomePage()),
         createButton('li', '⭐ Today', 'homeButton'),
-        createButton('li', '📚 This week', 'homeButton'),
-        createButton('li', '📆 Upcoming', 'homeButton'),
+        createButton('li', '📅 This week', 'homeButton'),
         createButton('li', '📗 Projects', 'homeButton', () => showProjectPage()),
         createButton('li', '📖 Notes', 'homeButton', () => showNotePage())
     );
@@ -28,6 +27,7 @@ function createSidebar(){
     return sidebar; 
 }
 
+
 const content = document.getElementById('content');
 const body = document.createElement('div'); 
 body.classList.add('body'); 
@@ -36,3 +36,12 @@ showProjectPage();
 showNotePage(); 
 showHomePage();
 
+document.addEventListener('change', function(e) {
+    if (e.target && e.target.matches('.todo-checkbox')) {
+        const index = e.target.getAttribute('data-checkbox-index');
+        const allCheckboxes = document.querySelectorAll(`.todo-checkbox[data-checkbox-index="${index}"]`);
+        allCheckboxes.forEach(cb => {
+            cb.checked = e.target.checked;
+        });
+    }
+});

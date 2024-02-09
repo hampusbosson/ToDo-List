@@ -43,13 +43,16 @@ function createTodoElement(todo, index) {
     // Create the checkbox input
     const checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
-    const checkboxId = 'cbtest-19' + index;
-    checkbox.id = checkboxId; 
+    checkbox.setAttribute('data-checkbox-index', index);
+    const checkboxID = 'cbtest-19';
+    checkbox.id = checkboxID; 
+    checkbox.classList.add('todo-checkbox'); // Added 'checkbox' for selection
     
     // Create the label
     const label = document.createElement('label');
-    label.setAttribute('for', checkboxId);
     label.classList.add('check-box');
+    label.setAttribute('data-checkbox-index', index);
+    
     
     // Append the checkbox and label to the wrapper
     checkboxWrapper.append(checkbox, label);
@@ -81,11 +84,6 @@ function createTodoElement(todo, index) {
     todoTitle.textContent = todo.title; 
     todoTitle.classList.add('todo-title');
 
-    checkbox.addEventListener('click', function() {
-        todoTitle.classList.toggle('todo-title-completed'); 
-        todoElement.classList.toggle('todo-element-completed'); 
-    })
-
     leftItems.append(checkboxWrapper, todoTitle); 
     rightButtons.append(editButton, deleteButton);
     rightItems.append(detailsButton, dateText, rightButtons); 
@@ -112,20 +110,21 @@ function editTodoAndDetails(index) {
         .changePriority(newPriority);
         
     // Update the DOM elements for the todo item display
-    const todoBox = document.getElementById(index.toString());
-    const titleElement = todoBox.querySelector('.todo-title');
-    const dateElement = todoBox.querySelector('.date-text');
+    const todoBoxes = document.querySelectorAll(`[data-index="${index}"]`);
 
-    if (titleElement) {
-        titleElement.textContent = newTitle;
-    }
+    todoBoxes.forEach(todoBox => {
+        const titleElement = todoBox.querySelector('.todo-title');
+        const dateElement = todoBox.querySelector('.date-text');
     
-    if (dateElement) {
-        newDate = format(new Date(newDate), "LLL do");
-        dateElement.textContent = newDate; 
-    }
-
+        if (titleElement) {
+            titleElement.textContent = newTitle;
+        }
     
+        if (dateElement) {
+            const formattedDate = format(new Date(newDate), "LLL do");
+            dateElement.textContent = formattedDate;
+        }
+    });
 }
 
 function deleteTodoElements(index) {
@@ -137,6 +136,7 @@ function deleteTodoElements(index) {
         const parent = todoElement.parentElement;
         if (parent) {
             parent.removeChild(todoElement);
+            parent.style.display = 'none'; 
         }
     });
 }
@@ -149,11 +149,14 @@ function renderHomePage() {
     const homepageContent = document.createElement('div'); 
     homepageContent.classList.add('homepage-content'); 
 
+    const homepageTodos = document.createElement('div'); 
+    homepageTodos.classList.add('homepage-todo-content');
+
     const homepageTitle = document.createElement('div'); 
     homepageTitle.classList.add('page-title'); 
-    homepageTitle.textContent = '🏠 Home';
+    homepageTitle.textContent = '🏠 All Tasks';
 
-    homepageContent.appendChild(homepageTitle); 
+    homepageContent.append(homepageTitle, homepageTodos); 
     
     homepage.appendChild(homepageContent); 
 
@@ -167,23 +170,31 @@ function renderHomePage() {
 function addNewTodo() {
     event.preventDefault();
 
-    const individualProjectPage = document.querySelector('#add-task-page'); 
+    const addTaskModal = document.querySelector('#add-task-page'); 
 
     // Get values from input fields
     let title = document.getElementById('title-input').value;
     let details = document.getElementById('details-input').value;
     let date = document.getElementById('date').value;
     let project = 'Home'; 
-    if (individualProjectPage) {
+    if (addTaskModal) {
         date = document.getElementById('task-date').value; 
         title = document.getElementById('task-title-input').value; 
         details = document.getElementById('task-details-input').value;
-        project = document.querySelector('.project-title-name').textContent;
+        const projectPageIndex = getCurrentProjectPageIndex(); 
+        project = getProjectList().getTitleOfIndex(projectPageIndex);
     } 
+
     const priority = getSelectedPriority(); 
 
     const newTodo = new Todo(title, details, date, priority, project);
-    todoList.addTodo(newTodo);
+    if (!todoList.doesTitleExist(newTodo)) {
+        todoList.addTodo(newTodo);
+    } else {
+        // Handle the case where the title already exists
+        alert (`A todo with the title "${newTodo.title}" already exists.`);
+        return;
+    }
 
     document.getElementById('title-input').value = '';
     document.getElementById('details-input').value = '';
@@ -195,9 +206,11 @@ function addNewTodo() {
         btn.style.color = btn.dataset.priorityColor; 
     });
 
-    if (individualProjectPage) {
+    if (addTaskModal) {
         let projectList = getProjectList(); 
         let index = projectList.getIndexOfTitle(project); 
+
+        console.log(index); 
 
         updateTodoBoxInProject(index); 
     }
@@ -207,23 +220,40 @@ function addNewTodo() {
     closeModal(); 
 }
 
-function updateTodoBox() {
-    const homepageContent = document.querySelector('.homepage-content');
+function getCurrentProjectPageIndex() {
+    // Select all individual project pages
+    const projectPages = document.querySelectorAll('[id^="individual-project-page"]');
     
+    // Find the one that is currently visible (display !== 'none')
+    const visiblePage = Array.from(projectPages).find(page => page.style.display === 'block');
+    
+    if (visiblePage) {
+        // Extract the index from the id using a regular expression
+        const match = visiblePage.id.match(/individual-project-page(\d+)/);
+        if (match && match[1]) {
+            return parseInt(match[1], 10); // Convert the extracted index to a number
+        }
+    }
+    
+    return null; // Return null if no page is visible or the index cannot be found
+}
+
+function updateTodoBox() {
+    const homepageContent = document.querySelector('.homepage-todo-content');
     
     if (homepageContent) {
         // Create a new todoBox and append it to the homepage
         const newTodoBox = renderTodoBox();
-        homepageContent.appendChild(newTodoBox);
+        homepageContent.prepend(newTodoBox);
     }
 }
 
 function updateTodoBoxInProject(index) {
     const projectContent = document.querySelector('#individual-project-page' + index);
-    const grandchild = projectContent.querySelector('.i-project-content .i-project-container');
+    const grandchild = projectContent.querySelector('.i-project-content .i-project-container .project-todo-content');
 
     if (projectContent) {
-        // Create a new todoBox and append it to the homepage
+        // Create a new todoBox and append it to the projectpage
         const newTodoBox = renderTodoBox();
         grandchild.prepend(newTodoBox);
     }
@@ -233,6 +263,21 @@ function getSelectedPriority() {
     const priority = document.querySelector('.selected'); 
     return priority.textContent; 
 }
+
+
+document.body.addEventListener('click', function(event) {
+    if (event.target.matches('.todo-checkbox')) {
+        const index = event.target.getAttribute('data-checkbox-index');
+        // Toggle completion state for todo items with the same index
+        document.querySelectorAll(`.todo-element[data-index="${index}"]`).forEach(todoElement => {
+            const todoTitle = todoElement.querySelector('.todo-title');
+            if (todoTitle) {
+                todoTitle.classList.toggle('todo-title-completed');
+            }
+            todoElement.classList.toggle('todo-element-completed');
+        });
+    }
+});
 
 function showHomePage() {
     hideAllHomePages(); 
