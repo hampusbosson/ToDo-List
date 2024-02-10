@@ -2,7 +2,6 @@ import { createFilledPriroitySelector } from "./todoUI";
 import { createButton, createValueInputElement } from "./UIhelper";
 import { editTodoAndDetails } from "./homepage";
 
-
 function renderEditModal() {
     const modal = document.createElement('div'); 
     modal.classList.add('edit-modal'); 
