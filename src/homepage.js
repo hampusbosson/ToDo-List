@@ -1,12 +1,65 @@
-import { createButton, hideAllHomePages, createIconButton } from "./UIhelper";
-import { Todo, TodoList, ProjectList } from "./todoLogic";
+import { hideAllHomePages,
+    createButton, 
+    createIconButton, 
+    getCurrentProjectPageIndex,
+    deleteTodoElements,
+    deleteTodoElementInToday,
+    deleteTodoElementInWeek,
+    updateExistingTodoBox,
+    getSelectedPriority } from "./UIhelper";
+import { Todo, TodoList } from "./todoLogic";
 import { closeModal } from "./modal";
+import { format, isToday, isThisISOWeek } from "date-fns";
+import { getProjectList } from "./projectpage";
 import { showDetailsModal } from "./detailsModal";
 import { showEditModal } from "./editModal";
-import { format } from "date-fns";
-import { getProjectList } from "./projectpage";
 
 const todoList = new TodoList(); 
+
+function updateTodoBox() {
+    const homepageContent = document.querySelector('.homepage-todo-content');
+    
+    if (homepageContent) {
+        // Create a new todoBox and append it to the homepage
+        const newTodoBox = renderTodoBox();
+        homepageContent.prepend(newTodoBox);
+    }
+}
+
+function updateTodoBoxInProject(index) {
+    const projectContent = document.querySelector('#individual-project-page' + index);
+    const grandchild = projectContent.querySelector('.i-project-content .i-project-container .project-todo-content');
+
+    if (projectContent) {
+        // Create a new todoBox and append it to the projectpage
+        const newTodoBox = renderTodoBox();
+        grandchild.prepend(newTodoBox);
+    }
+}
+
+function updateTodoBoxInToday() {
+    const todayContent = document.querySelector('#todaypage-container');
+    const grandchild = todayContent.querySelector('.todaypage-content .todaypage-todo-content');
+
+    if (todayContent) {
+        // Create a new todoBox and append it to the projectpage
+        const newTodoBox = renderTodoBox();
+        grandchild.prepend(newTodoBox);
+    }
+}
+
+
+function updateTodoBoxInWeek() {
+    const thisweekContent = document.querySelector('#thisweekpage-container');
+    const grandchild = thisweekContent.querySelector('.thisweekpage-content .thisweekpage-todo-content');
+
+    if (thisweekContent) {
+        // Create a new todoBox and append it to the projectpage
+        const newTodoBox = renderTodoBox();
+        grandchild.prepend(newTodoBox);
+    }
+}
+
 
 function renderTodoBox() {
     const todoBox = document.createElement('div');
@@ -92,12 +145,14 @@ function createTodoElement(todo, index) {
     return todoElement;
 }
 
+
 function editTodoAndDetails(index) {
     event.preventDefault(); 
     // Retrieve the edit form content first to get the new values
     const editContent = document.getElementById('edit-c' + index);
     const newTitle = editContent.querySelector('#edit-title-input').value; 
     let newDate = editContent.querySelector('#edit-date').value.trim(); 
+    const formattedNewDate = format(new Date(newDate), "LLL do");
     const newDetails = editContent.querySelector('#edit-details-input').value; 
     const priority = editContent.querySelector('.selected'); 
     const newPriority = priority.textContent; 
@@ -109,6 +164,33 @@ function editTodoAndDetails(index) {
         .changeDetails(newDetails)
         .changePriority(newPriority);
         
+
+    if (isToday(newDate)) {
+        const existingTodoBox = document.querySelector(`#todaypage-container .todo-element[data-index="${index}"]`);
+        if (existingTodoBox) {
+            // Update the existing todo box
+            updateExistingTodoBox(existingTodoBox, newTitle, formattedNewDate, newDetails, newPriority);
+        } else {
+            // Add a new todo box to 'todaypage'
+            updateTodoBoxInToday();
+        }
+    } else {
+        deleteTodoElementInToday(index);
+    }
+
+    if (isThisISOWeek(newDate)) {
+        const existingTodoBox = document.querySelector(`#thisweekpage-container .todo-element[data-index="${index}"]`);
+        if (existingTodoBox) {
+            // Update the existing todo box
+            updateExistingTodoBox(existingTodoBox, newTitle, formattedNewDate, newDetails, newPriority);
+        } else {
+            // Add a new todo box to 'todaypage'
+            updateTodoBoxInWeek();
+        }
+    } else {
+        deleteTodoElementInWeek(index);
+    } 
+
     // Update the DOM elements for the todo item display
     const todoBoxes = document.querySelectorAll(`[data-index="${index}"]`);
 
@@ -124,20 +206,7 @@ function editTodoAndDetails(index) {
             const formattedDate = format(new Date(newDate), "LLL do");
             dateElement.textContent = formattedDate;
         }
-    });
-}
 
-function deleteTodoElements(index) {
-    // Select all elements with the class 'todo-item' that have the matching 'data-index'
-    const todoElements = document.querySelectorAll(`.todo-element[data-index="${index}"]`);
-
-    // Loop through the NodeList and remove each element from its parent
-    todoElements.forEach(todoElement => {
-        const parent = todoElement.parentElement;
-        if (parent) {
-            parent.removeChild(todoElement);
-            parent.style.display = 'none'; 
-        }
     });
 }
 
@@ -214,56 +283,21 @@ function addNewTodo() {
 
         updateTodoBoxInProject(index); 
     }
+
+    if (isToday(newTodo.date)) {
+        updateTodoBoxInToday();
+    }
+
+    if (isThisISOWeek(newTodo.date)) {
+        updateTodoBoxInWeek();
+    } 
+    
+    
     // Update the homepage to display the new todo
     updateTodoBox(); 
     //close modal after adding
     closeModal(); 
 }
-
-function getCurrentProjectPageIndex() {
-    // Select all individual project pages
-    const projectPages = document.querySelectorAll('[id^="individual-project-page"]');
-    
-    // Find the one that is currently visible (display !== 'none')
-    const visiblePage = Array.from(projectPages).find(page => page.style.display === 'block');
-    
-    if (visiblePage) {
-        // Extract the index from the id using a regular expression
-        const match = visiblePage.id.match(/individual-project-page(\d+)/);
-        if (match && match[1]) {
-            return parseInt(match[1], 10); // Convert the extracted index to a number
-        }
-    }
-    
-    return null; // Return null if no page is visible or the index cannot be found
-}
-
-function updateTodoBox() {
-    const homepageContent = document.querySelector('.homepage-todo-content');
-    
-    if (homepageContent) {
-        // Create a new todoBox and append it to the homepage
-        const newTodoBox = renderTodoBox();
-        homepageContent.prepend(newTodoBox);
-    }
-}
-
-function updateTodoBoxInProject(index) {
-    const projectContent = document.querySelector('#individual-project-page' + index);
-    const grandchild = projectContent.querySelector('.i-project-content .i-project-container .project-todo-content');
-
-    if (projectContent) {
-        // Create a new todoBox and append it to the projectpage
-        const newTodoBox = renderTodoBox();
-        grandchild.prepend(newTodoBox);
-    }
-}
-
-function getSelectedPriority() {
-    const priority = document.querySelector('.selected'); 
-    return priority.textContent; 
-}
-
 
 document.body.addEventListener('click', function(event) {
     if (event.target.matches('.todo-checkbox')) {
