@@ -69,11 +69,12 @@ function hideAllHomePages() {
     });
 }
 
-function createButton(type, text, classList, onClick) {
+function createButton(type, text, classList, onClick, id) {
     const button = document.createElement(type); 
     button.textContent = text; 
     button.classList.add(classList); 
     button.addEventListener('click', onClick);
+    button.id = id; 
     return button; 
 }
 
