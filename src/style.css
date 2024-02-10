@@ -74,6 +74,18 @@ li:hover {
     transform: scale(1.1);
 }
 
+.homeButton {
+    width: fit-content;
+}
+
+.homeButton.active {
+    transform: scale(1.1);
+}
+
+#todaypage-button.active {
+    transform: scale(1.1);
+}
+
 .create-new {
     font-family: 'lato-bold';
     width: 4rem;

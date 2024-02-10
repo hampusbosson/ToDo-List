@@ -14,7 +14,7 @@ function createSidebar(){
     const sidebarOptions = document.createElement('ul'); 
     sidebarOptions.append(
         createButton('li', '🏠 All Tasks', 'homeButton', () => showHomePage()),
-        createButton('li', '⭐ Today', 'homeButton', () => showTodayPage()),
+        createButton('li', '⭐ Today', 'homeButton', () => showTodayPage(), 'todaypage-button'),
         createButton('li', '📅 This week', 'homeButton', () => showThisWeekPage()),
         createButton('li', '📗 Projects', 'homeButton', () => showProjectPage()),
         createButton('li', '📖 Notes', 'homeButton', () => showNotePage())
@@ -34,10 +34,25 @@ const body = document.createElement('div');
 body.classList.add('body'); 
 content.append(createSidebar(), body);  
 showThisWeekPage(); 
-showTodayPage(); 
 showProjectPage(); 
 showNotePage(); 
 showHomePage();
+showTodayPage(); 
+
+const todaypageButton = document.getElementById('todaypage-button'); 
+todaypageButton.classList.add('active'); 
+
+// Add event listeners to all buttons with the class 'homeButton'
+document.querySelectorAll('.homeButton').forEach(button => {
+    button.addEventListener('click', function() {
+        // Remove the 'active' class from all buttons
+        document.querySelectorAll('.homeButton').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        // Add the 'active' class to the clicked button
+        this.classList.add('active');
+    });
+});
 
 document.addEventListener('change', function(e) {
     if (e.target && e.target.matches('.todo-checkbox')) {
