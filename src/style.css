@@ -79,11 +79,11 @@ li:hover {
 }
 
 .homeButton.active {
-    transform: scale(1.1);
+    transform: scale(1.15);
 }
 
 #todaypage-button.active {
-    transform: scale(1.1);
+    transform: scale(1.15);
 }
 
 .create-new {
