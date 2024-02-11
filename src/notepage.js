@@ -93,8 +93,10 @@ function createNoteElement(note, index) {
     deletebuttonContainer.appendChild(deleteButton);
 
     const noteTitle = createValueTextarea('note-title', 'note-title', `${note.title}`, 'note-titles');
+    noteTitle.contentEditable = true; 
 
     const noteDetails = createValueTextarea('note-details', 'note-details', `${note.details}`, 'note-details');
+    noteDetails.contentEditable = true; 
 
     noteElement.append(deletebuttonContainer, noteTitle, noteDetails); 
 
@@ -112,7 +114,7 @@ function renderStoredNotes(notesList) {
         noteBoxes.push(notesBox);
     });
 
-    noteBoxes.forEach(notebox => notePage.appendChild(notebox)); 
+    noteBoxes.forEach(notebox => notePage.prepend(notebox)); 
 }
 
 function deleteNoteBox(index) {

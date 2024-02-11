@@ -29,13 +29,13 @@ function createValueTextarea(id, name, value, classList) {
     textarea.id = id;
     textarea.name = name;
     textarea.classList.add(classList);
-    textarea.wrap = "hard";
+    //textarea.wrap = "hard";
 
     // Function to adjust textarea height
     function adjustHeight() {
         // Ensure element is in the DOM and visible to calculate scrollHeight
         if (textarea.scrollHeight > 0) {
-            textarea.style.height = '1px'; // Reset height to recalculate
+            //textarea.style.height = '1px'; // Reset height to recalculate
             textarea.style.height = textarea.scrollHeight + 'px'; // Adjust to content
         }
     }
@@ -46,10 +46,10 @@ function createValueTextarea(id, name, value, classList) {
     }
 
     // Adjust height after appending to DOM to ensure accurate scrollHeight calculation
-    setTimeout(adjustHeight, 0);
-
+    setTimeout(adjustHeight, 10);
     // Add event listener for input to dynamically adjust height
     textarea.addEventListener('input', adjustHeight);
+    adjustHeight(); 
 
     return textarea;
 }
@@ -142,6 +142,13 @@ function deleteStoredNotes(index) {
     localStorage.setItem('notes', JSON.stringify(updatedNotes));
 }
 
+function deleteStoredProjects(index) {
+    const projects = JSON.parse(localStorage.getItem('projects') || '[]');
+    const updatedProjects = projects.filter((project, projectIndex) => projectIndex !== index);
+    localStorage.setItem('projects', JSON.stringify(updatedProjects));
+}
+
+
 function getSelectedPriority() {
     const priority = document.querySelector('.selected'); 
     return priority.textContent; 
@@ -209,4 +216,5 @@ export { createInputElement,
     deleteStoredTodayTodos,
     deleteStoredWeekTodos,
     isVisible,
-    deleteStoredNotes }; 
+    deleteStoredNotes,
+    deleteStoredProjects }; 

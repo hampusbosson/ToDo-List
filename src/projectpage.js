@@ -1,4 +1,4 @@
-import { hideAllHomePages } from "./UIhelper";
+import { hideAllHomePages, deleteStoredProjects } from "./UIhelper";
 import { Project, ProjectList } from "./todoLogic";
 import { closeModal } from "./modal";
 import { showIdividualProjectPage } from "./individualProjectPage";
@@ -50,7 +50,6 @@ function renderProjectBox() {
 
     let projectPage = document.querySelector('#projectpage-container');
 
-    
     // If projectpage is in view, append only the latest project
     if (projectPage && projectList.projects.length > 0) { 
         const index = projectList.projects.length - 1;
@@ -64,6 +63,8 @@ function renderProjectBox() {
             projectBox.appendChild(projectElement);
         });
     }
+
+    projectBox.appendChild(deleteContainer); 
     
     return projectBox; 
 }
@@ -74,18 +75,42 @@ function createProjectElement(project, index) {
     projectElement.classList.add('project-element');
     projectElement.id = 'project' + index; 
 
+    const deleteContainer = document.createElement('div'); 
+    deleteContainer.classList.add('project-delete-container'); 
+
+    const deleteButton = document.createElement('button'); 
+    deleteButton.classList.add('project-delete-btn'); 
+    deleteButton.textContent = 'DELETE PROJECT'; 
 
     const projectTitle = document.createElement('div');
     projectTitle.textContent = project.title; 
     projectTitle.classList.add('project-title');
 
-    projectElement.appendChild(projectTitle)
+    deleteContainer.appendChild(deleteButton);
+    projectElement.append(projectTitle, deleteContainer)
 
-    projectElement.addEventListener('click', () => {
+    projectTitle.addEventListener('click', () => {
         showIdividualProjectPage(project, index); 
     })
 
+    deleteButton.addEventListener('click', () => {
+        deleteProjectBox(index); 
+        deleteStoredProjects(index); 
+    })
+
     return projectElement;
+}
+
+function deleteProjectBox(index) {
+    const projectBox = document.getElementById('project' + index);
+    const parent = projectBox.parentElement;
+
+    // Remove the parent element from its own parent
+    if (parent && parent.parentElement) {
+        parent.parentElement.removeChild(parent);
+    }
+
+    projectList.deleteProject(index);
 }
 
 
