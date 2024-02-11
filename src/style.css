@@ -79,11 +79,12 @@ li:hover {
 }
 
 .homeButton.active {
-    transform: scale(1.15);
+    transform: scale(1.1);
+    font-family: 'lato-regular';
 }
 
 #todaypage-button.active {
-    transform: scale(1.15);
+    transform: scale(1.1);
 }
 
 .create-new {
@@ -447,7 +448,7 @@ li:hover {
 }
 
 .date-text {
-    width: 3.8rem; 
+    width: 3.9rem; 
     font-size: 0.95rem;
     font-family: 'lato-regular';
     
@@ -609,7 +610,7 @@ li:hover {
     padding-bottom: 1.5rem;
     border: 1px solid rgba(0, 0, 0, 0.165);
     border-radius: 5px;
-    overflow-wrap: break-word;
+    overflow-wrap: normal;
     
 }
 
@@ -672,13 +673,13 @@ li:hover {
     height: 13rem;
     border-radius: 10px;
     transition: transform 0.2s ease; /* Smooth transition for scaling */
-    cursor: pointer;
 }
 
 .project-element {
     width: 100%;
     height: 100%;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     position: relative; /* Needed for the pseudo-element positioning */
@@ -706,13 +707,42 @@ li:hover {
 
 
 .project-title {
+    margin-top: 4.5rem;
+    margin-right: -1rem; 
     font-family: 'lato-regular';
     font-size: 2.5rem;
     color: black;
+    cursor: pointer;
 }
 
 .project-title-content {
     font-family: 'lato-light';
+}
+
+.project-delete-container {
+    width: 100%; 
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 1.8rem; 
+    margin-top: 2.5rem;
+}
+
+.project-delete-btn:hover {
+    border: 1px solid black; 
+    background-color: red;
+    cursor: pointer; 
+}
+
+.project-delete-btn {
+    font-size: 0.8rem;
+    height: 1.9rem;
+    width: 7.4rem;
+    border-radius: 4px;
+    border: none;
+    background-color: transparent;
+    color: #5c9cf5;
+    font-family: 'lato-bold';
+    color: black; 
 }
 
 .title-content {
