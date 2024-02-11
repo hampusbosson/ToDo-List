@@ -130,6 +130,17 @@ class ProjectList {
             return null;
         }
     }
+
+    deleteProject(index) {
+        // Check if the index is valid
+        if (index >= 0 && index < this.projects.length) {
+            // Remove the project at the specified index
+            this.projects.splice(index, 1);
+        } else {
+            // Optionally handle the case where the index is invalid
+            console.error("Invalid index for deletion.");
+        }
+    }
 }
 
 class Note {
