@@ -30,6 +30,20 @@ function renderProjectPage() {
     projectpage.style.display = 'none'; 
 }
 
+function renderStoredProjects(projectList) {
+    const projectBoxes = []; 
+    const projectPage = document.querySelector('.projects-container')
+    projectList.projects.forEach((project, index) => {
+        const projectBox = document.createElement('div');
+        projectBox.classList.add('project-box');  
+        const projectElement = createProjectElement(project, index);
+        projectBox.appendChild(projectElement);
+        projectBoxes.push(projectBox);
+    });
+
+    projectBoxes.forEach(projectbox => projectPage.prepend(projectbox)); 
+}
+
 function renderProjectBox() {
     const projectBox = document.createElement('div');
     projectBox.classList.add('project-box'); 
@@ -50,11 +64,10 @@ function renderProjectBox() {
             projectBox.appendChild(projectElement);
         });
     }
-
-    
     
     return projectBox; 
 }
+
 
 function createProjectElement(project, index) {
     const projectElement = document.createElement('div');
@@ -85,6 +98,7 @@ function addNewProject() {
     const newProject = new Project(title);
     if (!projectList.doesTitleExist(newProject)) {
         projectList.addProject(newProject);
+        localStorage.setItem('projects', JSON.stringify(projectList.projects)); 
     } else {
         // Handle the case where the title already exists
         alert (`A project with the title "${newProject.title}" already exists.`);
@@ -123,6 +137,15 @@ function showProjectPage() {
 function getProjectList() {
     return projectList; 
 }
+
+document.addEventListener('DOMContentLoaded', () => {   
+    const storedProjects = JSON.parse(localStorage.getItem("projects") || "[]"); 
+    const renderdProjectList = new ProjectList(storedProjects); 
+    storedProjects.forEach(project => projectList.addProject(new Project(project.title)));
+
+    // Assuming you have a container element where todoBox should be appended
+    renderStoredProjects(renderdProjectList); 
+});
 
 
 export { showProjectPage, addNewProject, getProjectList };

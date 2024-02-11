@@ -1,4 +1,4 @@
-import { format } from "date-fns";
+import { format, isToday, isThisISOWeek } from "date-fns";
 
 class Todo {
     constructor(title, details, date, priority, project) {
@@ -37,8 +37,8 @@ class Todo {
 }
 
 class TodoList {
-    constructor() {
-        this.todos = []; 
+    constructor(todos = []) {
+        this.todos = todos; 
     }
 
     doesTitleExist(todo) {
@@ -54,10 +54,15 @@ class TodoList {
         }
 
         this.todos.push(todo); 
+        //this.saveToLocalStorage(); 
     }
 
     getTodoByTitle(title) {
         return this.todos.find(todo => todo.title === title); 
+    }
+
+    saveToLocalStorage() {
+        localStorage.setItem("todos", JSON.stringify(this.todos));
     }
 
 }
@@ -83,8 +88,8 @@ class Project {
 }
 
 class ProjectList {
-    constructor() {
-        this.projects = []; 
+    constructor(projects = []) {
+        this.projects = projects; 
     }
 
     doesTitleExist(project) {
@@ -135,8 +140,8 @@ class Note {
 }
 
 class NotesList {
-    constructor() {
-        this.notes = []; 
+    constructor(notes = []) {
+        this.notes = notes; 
     }
 
     addNote(note) {
@@ -149,7 +154,6 @@ class NotesList {
         this.notes.push(note); 
     }
 }
-
 
 
 

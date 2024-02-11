@@ -1,7 +1,7 @@
 import { hideAllHomePages } from "./UIhelper";
 import { Note, NotesList } from "./todoLogic";
 import { closeModal } from "./modal";
-import { createValueTextarea } from "./UIhelper";
+import { createValueTextarea, deleteStoredNotes } from "./UIhelper";
 
 const notesList = new NotesList(); 
 
@@ -38,6 +38,7 @@ function addNewNote() {
 
     const newNote = new Note(title, details); 
     notesList.addNote(newNote); 
+    localStorage.setItem('notes', JSON.stringify(notesList.notes)); 
 
     document.getElementById('modal-note-title').value = '';
     document.getElementById('modal-note-details').value = ''; 
@@ -86,6 +87,7 @@ function createNoteElement(note, index) {
 
     deleteButton.addEventListener('click', () => {
         deleteNoteBox('note' + index);
+        deleteStoredNotes(index);
     })
 
     deletebuttonContainer.appendChild(deleteButton);
@@ -97,6 +99,20 @@ function createNoteElement(note, index) {
     noteElement.append(deletebuttonContainer, noteTitle, noteDetails); 
 
     return noteElement; 
+}
+
+function renderStoredNotes(notesList) {
+    const noteBoxes = []; 
+    const notePage = document.querySelector('.notes-container')
+    notesList.notes.forEach((note, index) => {
+        const notesBox = document.createElement('div');
+        notesBox.classList.add('note-box');  
+        const noteElement = createNoteElement(note, index);
+        notesBox.appendChild(noteElement);
+        noteBoxes.push(notesBox);
+    });
+
+    noteBoxes.forEach(notebox => notePage.appendChild(notebox)); 
 }
 
 function deleteNoteBox(index) {
@@ -129,5 +145,14 @@ function showNotePage() {
         notepage.style.display = 'block';
     }
 }
+
+document.addEventListener('DOMContentLoaded', () => {   
+    const storedNotes = JSON.parse(localStorage.getItem("notes") || "[]"); 
+    const renderedNotesList = new NotesList(storedNotes); 
+    storedNotes.forEach(note => notesList.addNote(new Note(note.title, note.details)));
+
+    // Assuming you have a container element where todoBox should be appended
+    renderStoredNotes(renderedNotesList); 
+});
 
 export { showNotePage, addNewNote, updateNoteBox }; 

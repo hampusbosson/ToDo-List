@@ -6,7 +6,11 @@ import { hideAllHomePages,
     deleteTodoElementInToday,
     deleteTodoElementInWeek,
     updateExistingTodoBox,
-    getSelectedPriority } from "./UIhelper";
+    getSelectedPriority, 
+    deleteStoredTodos,
+    deleteStoredTodayTodos,
+    deleteStoredWeekTodos,
+    isVisible } from "./UIhelper";
 import { Todo, TodoList } from "./todoLogic";
 import { closeModal } from "./modal";
 import { format, isToday, isThisISOWeek } from "date-fns";
@@ -15,13 +19,24 @@ import { showDetailsModal } from "./detailsModal";
 import { showEditModal } from "./editModal";
 
 const todoList = new TodoList(); 
+const todayTodoList = new TodoList();
+const weekTodoList = new TodoList(); 
+
+const storedTodos = JSON.parse(localStorage.getItem("todos") || "[]");
+const myTodoList = new TodoList(storedTodos);
+
+const storedTodayTodos = JSON.parse(localStorage.getItem("todayTodos") || "[]"); 
+const todayList = new TodoList(storedTodayTodos); 
+
+const storedWeekTodos = JSON.parse(localStorage.getItem("weekTodos") || "[]"); 
+const weekList = new TodoList(storedWeekTodos); 
 
 function updateTodoBox() {
     const homepageContent = document.querySelector('.homepage-todo-content');
     
     if (homepageContent) {
         // Create a new todoBox and append it to the homepage
-        const newTodoBox = renderTodoBox();
+        const newTodoBox = renderTodoBox(todoList);
         homepageContent.prepend(newTodoBox);
     }
 }
@@ -32,7 +47,7 @@ function updateTodoBoxInProject(index) {
 
     if (projectContent) {
         // Create a new todoBox and append it to the projectpage
-        const newTodoBox = renderTodoBox();
+        const newTodoBox = renderTodoBox(todoList);
         grandchild.prepend(newTodoBox);
     }
 }
@@ -43,7 +58,7 @@ function updateTodoBoxInToday() {
 
     if (todayContent) {
         // Create a new todoBox and append it to the projectpage
-        const newTodoBox = renderTodoBox();
+        const newTodoBox = renderTodoBox(todoList);
         grandchild.prepend(newTodoBox);
     }
 }
@@ -55,13 +70,13 @@ function updateTodoBoxInWeek() {
 
     if (thisweekContent) {
         // Create a new todoBox and append it to the projectpage
-        const newTodoBox = renderTodoBox();
+        const newTodoBox = renderTodoBox(todoList);
         grandchild.prepend(newTodoBox);
     }
 }
 
 
-function renderTodoBox() {
+function renderTodoBox(todoList) {
     const todoBox = document.createElement('div');
     todoBox.classList.add('todo-box'); 
 
@@ -82,6 +97,48 @@ function renderTodoBox() {
     }
     
     return todoBox; 
+}
+
+function renderStoredTodoBoxesInHome(todoList) {
+    const todoboxes = []; 
+    const homepage = document.querySelector('.homepage-todo-content')
+    todoList.todos.forEach((todo, index) => {
+        const todoBox = document.createElement('div');
+        todoBox.classList.add('todo-box');  
+        const todoElement = createTodoElement(todo, index);
+        todoBox.appendChild(todoElement);
+        todoboxes.push(todoBox);
+    });
+
+    todoboxes.forEach(todobox => homepage.prepend(todobox)); 
+}
+
+function renderStoredTodoBoxesInToday(todoList) {
+    const todoboxes = []; 
+    const topdayPage = document.querySelector('.todaypage-todo-content')
+    todoList.todos.forEach((todo, index) => {
+        const todoBox = document.createElement('div');
+        todoBox.classList.add('todo-box');  
+        const todoElement = createTodoElement(todo, index);
+        todoBox.appendChild(todoElement);
+        todoboxes.push(todoBox);
+    });
+
+    todoboxes.forEach(todobox => topdayPage.prepend(todobox)); 
+}
+
+function renderStoredTodoBoxesInWeek(todoList) {
+    const todoboxes = []; 
+    const weekPage = document.querySelector('.thisweekpage-todo-content')
+    todoList.todos.forEach((todo, index) => {
+        const todoBox = document.createElement('div');
+        todoBox.classList.add('todo-box');  
+        const todoElement = createTodoElement(todo, index);
+        todoBox.appendChild(todoElement);
+        todoboxes.push(todoBox);
+    });
+
+    todoboxes.forEach(todobox => weekPage.prepend(todobox)); 
 }
 
 
@@ -124,6 +181,9 @@ function createTodoElement(todo, index) {
 
     const deleteButton = createIconButton('button', 'delete-button', () => {
         deleteTodoElements(index);
+        deleteStoredTodos(index); 
+        deleteStoredTodayTodos(index); 
+        deleteStoredWeekTodos(index); 
     }); 
 
     const leftItems = document.createElement('div'); 
@@ -170,6 +230,7 @@ function editTodoAndDetails(index) {
         if (existingTodoBox) {
             // Update the existing todo box
             updateExistingTodoBox(existingTodoBox, newTitle, formattedNewDate, newDetails, newPriority);
+
         } else {
             // Add a new todo box to 'todaypage'
             updateTodoBoxInToday();
@@ -239,35 +300,49 @@ function renderHomePage() {
 function addNewTodo() {
     event.preventDefault();
 
-    const addTaskModal = document.querySelector('#add-task-page'); 
+    const addTaskModal = document.querySelector('.add-task-modal'); 
+    const modal = document.querySelector('.modal'); 
 
     // Get values from input fields
-    let title = document.getElementById('title-input').value;
-    let details = document.getElementById('details-input').value;
-    let date = document.getElementById('date').value;
-    let project = 'Home'; 
-    if (addTaskModal) {
+    let title, details, date, project;
+    if (isVisible(addTaskModal)) {
         date = document.getElementById('task-date').value; 
         title = document.getElementById('task-title-input').value; 
+        console.log(title); 
         details = document.getElementById('task-details-input').value;
         const projectPageIndex = getCurrentProjectPageIndex(); 
         project = getProjectList().getTitleOfIndex(projectPageIndex);
-    } 
+        console.log(project);
+    } else if (isVisible){
+        title = document.getElementById('title-input').value;
+        console.log(title); 
+        details = document.getElementById('details-input').value;
+        date = document.getElementById('date').value;
+        project = 'Home'; 
+    }
 
-    const priority = getSelectedPriority(); 
-
+    const priority = getSelectedPriority();
+    
     const newTodo = new Todo(title, details, date, priority, project);
+
     if (!todoList.doesTitleExist(newTodo)) {
         todoList.addTodo(newTodo);
+        localStorage.setItem('todos', JSON.stringify(todoList.todos)); 
     } else {
         // Handle the case where the title already exists
         alert (`A todo with the title "${newTodo.title}" already exists.`);
         return;
     }
 
-    document.getElementById('title-input').value = '';
-    document.getElementById('details-input').value = '';
-    document.getElementById('date').value = '';
+    if (isVisible(addTaskModal)) {
+        document.getElementById('task-details-input').value = '';
+        document.getElementById('task-title-input').value = '';
+        document.getElementById('task-date').value = '';
+    } else if(isVisible(modal)) {
+        document.getElementById('title-input').value = '';
+        document.getElementById('details-input').value = '';
+        document.getElementById('date').value = '';
+    }
 
     document.querySelectorAll('.priority-button').forEach(btn => {
         btn.classList.remove('selected');
@@ -277,19 +352,22 @@ function addNewTodo() {
 
     if (addTaskModal) {
         let projectList = getProjectList(); 
+        console.log(getProjectList); 
         let index = projectList.getIndexOfTitle(project); 
-
-        console.log(index); 
 
         updateTodoBoxInProject(index); 
     }
 
     if (isToday(newTodo.date)) {
         updateTodoBoxInToday();
+        todayTodoList.addTodo(newTodo);
+        localStorage.setItem('todayTodos', JSON.stringify(todayTodoList.todos));
     }
 
     if (isThisISOWeek(newTodo.date)) {
         updateTodoBoxInWeek();
+        weekTodoList.addTodo(newTodo); 
+        localStorage.setItem('weekTodos', JSON.stringify(weekTodoList.todos)); 
     } 
     
     
@@ -322,5 +400,20 @@ function showHomePage() {
         homepage.style.display = 'block';
     }
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+     // Initialize with stored todos
+    storedTodos.forEach(todo => todoList.addTodo(new Todo(todo.title, todo.details, todo.date, todo.priority, todo.project)));
+
+    storedTodayTodos.forEach(todo => todayTodoList.addTodo(new Todo(todo.title, todo.details, todo.date, todo.priority, todo.project)));
+
+    storedWeekTodos.forEach(todo => weekTodoList.addTodo(new Todo(todo.title, todo.details, todo.date, todo.priority, todo.project)));
+
+    renderStoredTodoBoxesInHome(myTodoList);
+    renderStoredTodoBoxesInToday(todayList); 
+    renderStoredTodoBoxesInWeek(weekList); 
+
+    
+});
 
 export { showHomePage, addNewTodo, editTodoAndDetails }; 

@@ -115,6 +115,31 @@ function deleteTodoElements(index) {
             parent.style.display = 'none'; 
         }
     });
+
+}
+
+function deleteStoredTodos(index) {
+    const todos = JSON.parse(localStorage.getItem('todos') || '[]');
+    const updatedTodos = todos.filter((todo, todoIndex) => todoIndex !== index);
+    localStorage.setItem('todos', JSON.stringify(updatedTodos));
+}
+
+function deleteStoredTodayTodos(index) {
+    const todaytodos = JSON.parse(localStorage.getItem('todayTodos') || '[]');
+    const updatedTodayTodos = todaytodos.filter((todo, todoIndex) => todoIndex !== index);
+    localStorage.setItem('todayTodos', JSON.stringify(updatedTodayTodos)); 
+}
+
+function deleteStoredWeekTodos(index) {
+    const weekTodos = JSON.parse(localStorage.getItem('weekTodos') || '[]');
+    const updatedWeekTodos = weekTodos.filter((todo, todoIndex) => todoIndex !== index);
+    localStorage.setItem('weekTodos', JSON.stringify(updatedWeekTodos));
+}
+
+function deleteStoredNotes(index) {
+    const notes = JSON.parse(localStorage.getItem('notes') || '[]');
+    const updatedNotes = notes.filter((note, noteIndex) => noteIndex !== index);
+    localStorage.setItem('notes', JSON.stringify(updatedNotes));
 }
 
 function getSelectedPriority() {
@@ -133,6 +158,7 @@ function deleteTodoElementInWeek(index) {
         // If you want to remove the element completely, use:
         grandchild.remove();
     }
+
 }
 
 function deleteTodoElementInToday(index) {
@@ -145,7 +171,7 @@ function deleteTodoElementInToday(index) {
         grandchild.innerHTML = '';
         // If you want to remove the element completely, use:
         grandchild.remove();
-    }
+    } 
 }
 
 function updateExistingTodoBox(todoBox, title, date, details, priority) {
@@ -160,6 +186,12 @@ function updateExistingTodoBox(todoBox, title, date, details, priority) {
     if (priorityElement) priorityElement.textContent = priority;
 }
 
+function isVisible(elem) {
+    if (!elem) return false; // Element does not exist
+    const style = window.getComputedStyle(elem);
+    return style.display !== 'none';
+}
+
 export { createInputElement, 
     hideAllPages, 
     createButton, 
@@ -172,4 +204,9 @@ export { createInputElement,
     deleteTodoElementInToday,
     deleteTodoElementInWeek,
     updateExistingTodoBox,
-    getSelectedPriority }; 
+    getSelectedPriority, 
+    deleteStoredTodos,
+    deleteStoredTodayTodos,
+    deleteStoredWeekTodos,
+    isVisible,
+    deleteStoredNotes }; 
