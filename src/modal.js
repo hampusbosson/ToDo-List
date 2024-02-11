@@ -1,7 +1,7 @@
 import { showToDoPage } from "./todoUI";
 import showProjectPage from "./projectUI";
 import { showNotePage } from "./noteUI";
-import { createButton } from "./UIhelper";
+import { createButton, isVisible } from "./UIhelper";
 
 function createModalHeader(modal) {
     const modalHeader = document.createElement('div'); 
@@ -66,8 +66,15 @@ function renderModal() {
 }
 
 function closeModal() {
-    const modal = document.querySelector('.modal'); // Adjust selector as needed
-    modal.style.display = 'none';
+    const modal = document.querySelector('.modal');
+    const projectModal = document.querySelector('.add-task-modal');
+    
+    if (isVisible(modal)) {
+        modal.style.display = 'none';
+    } else if (isVisible(projectModal)) {
+        projectModal.style.display = 'none';
+    }
+    
 }
 
 function openModal() {
