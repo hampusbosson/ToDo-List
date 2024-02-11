@@ -1,6 +1,6 @@
 import './style.css'; 
 import { showModal } from './modal.js'; 
-import { showHomePage } from './homepage';
+import { showHomePage, renderStoredTodoBoxes } from './homepage';
 import { createButton } from './UIhelper';
 import { showNotePage } from './notepage.js';
 import { showProjectPage } from './projectpage.js';

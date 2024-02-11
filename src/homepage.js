@@ -21,15 +21,13 @@ import { showEditModal } from "./editModal";
 const todoList = new TodoList(); 
 const todayTodoList = new TodoList();
 const weekTodoList = new TodoList(); 
-
 const storedTodos = JSON.parse(localStorage.getItem("todos") || "[]");
 const myTodoList = new TodoList(storedTodos);
-
 const storedTodayTodos = JSON.parse(localStorage.getItem("todayTodos") || "[]"); 
 const todayList = new TodoList(storedTodayTodos); 
-
 const storedWeekTodos = JSON.parse(localStorage.getItem("weekTodos") || "[]"); 
 const weekList = new TodoList(storedWeekTodos); 
+
 
 function updateTodoBox() {
     const homepageContent = document.querySelector('.homepage-todo-content');
@@ -99,6 +97,20 @@ function renderTodoBox(todoList) {
     return todoBox; 
 }
 
+function renderTodoBoxesInHome(todoList) {
+    const todoboxes = []; 
+    const homepage = document.querySelector('.homepage-todo-content')
+    todoList.todos.forEach((todo, index) => {
+        const todoBox = document.createElement('div');
+        todoBox.classList.add('todo-box');  
+        const todoElement = createTodoElement(todo, index);
+        todoBox.appendChild(todoElement);
+        todoboxes.push(todoBox);
+    });
+
+    todoboxes.forEach(todobox => homepage.prepend(todobox)); 
+}
+
 function renderStoredTodoBoxesInHome(todoList) {
     const todoboxes = []; 
     const homepage = document.querySelector('.homepage-todo-content')
@@ -140,6 +152,8 @@ function renderStoredTodoBoxesInWeek(todoList) {
 
     todoboxes.forEach(todobox => weekPage.prepend(todobox)); 
 }
+
+
 
 
 function createTodoElement(todo, index) {
