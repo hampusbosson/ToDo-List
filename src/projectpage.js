@@ -63,8 +63,6 @@ function renderProjectBox() {
             projectBox.appendChild(projectElement);
         });
     }
-
-    projectBox.appendChild(deleteContainer); 
     
     return projectBox; 
 }
