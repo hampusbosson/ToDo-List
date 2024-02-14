@@ -1,5 +1,6 @@
 # ToDo-List
 // TO-DO: Productivity App
+
 Keep track of tasks with custom project folders and notes.
 
 - Save to-do items to one of the default folders (All tasks, Today, This Week) or create a custom project.
@@ -16,3 +17,5 @@ Future ideas to implement:
 - Add a responsive counter for number of todos in each folder
 - Sort by date/priority 
 - Create logins and allow shared projects / notes between users
+
+[Live App](https://hampusbosson.github.io/ToDo-List/)
