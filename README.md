@@ -19,3 +19,5 @@ Future ideas to implement:
 - Create logins and allow shared projects / notes between users
 
 [Live App](https://hampusbosson.github.io/ToDo-List/)
+
+![alt text](image.png)
